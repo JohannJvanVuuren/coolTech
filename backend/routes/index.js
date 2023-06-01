@@ -1,9 +1,18 @@
-var express = require('express');
-var router = express.Router();
+/**
+ * Dependency modules
+ */
+import express from 'express';
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
+/**
+ * Instantiation of a rRouter object
+ * @type {Router}
+ */
+const router = express.Router();
+
+/**
+ * This is a dummy route that will be used to evaluate the general functioning of the backend during testing. */
+router.get('/', function(req, res) {
   res.render('index', { title: 'Express' });
 });
 
-module.exports = router;
+export default router;

@@ -1,0 +1,26 @@
+/* Import to enable use of variables */
+@import '../abstract/variables';
+
+/* Global reset */
+*,
+::after,
+::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Setting global font to 1rem = 10px for ease of use when setting dimensions */
+html {
+  font-size: 62.5%;
+  background-color: $white-charcoal;
+}
+
+/* Setting global font family and size limits on the body */
+body {
+  font-family: 'Lato', Helvetica, Arial, sans-serif;
+  max-width: 140rem;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: $white-charcoal;
+}

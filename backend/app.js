@@ -1,34 +1,81 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+/**
+ * Dependency modules
+ */
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import createError from 'http-errors';
+import crypto from 'crypto';
+import express from 'express';
+import {  fileURLToPath } from 'url';
+import helmet from 'helmet';
+import logger from 'morgan';
+import path from 'path';
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+/**
+* Import of routes
+*/
+import indexRouter from './routes/index.js';
+import userRouter from './routes/users.js';
 
-var app = express();
+/**
+ * Instantiation of express
+ */
+const app = express();
 
-// view engine setup
+/**
+ * View engine setup
+ */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(
+    '/static',
+    express.static(path.join(__dirname, 'public'))
+)
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+/**
+ * Registration of middleware
+ */
 app.use(cookieParser());
+app.use(cors());
+app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: false }));
+app.use(helmet());
+app.use(logger('dev'));
 
+/**
+ * Registration of route endpoints
+ */
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api', userRouter);
 
-// catch 404 and forward to error handler
+/**
+ * Setup of the default Helmet settings for the app
+ */
+const nonce = crypto.randomUUID();
+helmet.contentSecurityPolicy({
+  directives: {
+    "script-src": [`'nonce-${nonce}'`, 'strict-dynamic'],
+    "object-src": 'none',
+    "base-uri": 'none',
+    "Cross-Origin-Resource-Policy": 'cross-origin',
+    "Cross-Origin-Opener-Policy": 'cross-origin',
+  }
+})
+
+/**
+ * The catching of 404 errors and forwarding to the error handler below
+ */
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
-app.use(function(err, req, res, next) {
+/**
+ * The error handler
+ */
+app.use(function(err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -38,4 +85,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+export default app;

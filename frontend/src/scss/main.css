@@ -1,0 +1,34 @@
+/* Import of SCSS files used to generate the main.css stylesheet */ /* Colour schema */
+/* Blue */
+/* Charcoal */
+/* Import to enable use of variables */ /* Colour schema */
+/* Blue */
+/* Charcoal */
+/* Global reset */
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,400&display=swap");
+*,
+::after,
+::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Setting global font to 1rem = 10px for ease of use when setting dimensions */
+html {
+  font-size: 62.5%;
+  background-color: #B7C4CD;
+}
+
+/* Setting global font family and size limits on the body */
+body {
+  font-family: "Lato", Helvetica, Arial, sans-serif;
+  max-width: 140rem;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: #B7C4CD;
+}
+
+/* Import of Google Font 'Lato' */
+
+/*# sourceMappingURL=main.css.map */
