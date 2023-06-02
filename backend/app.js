@@ -1,6 +1,7 @@
 /**
  * Dependency modules
  */
+import bodyParser from "body-parser";
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import createError from 'http-errors';
@@ -15,7 +16,7 @@ import path from 'path';
 * Import of routes
 */
 import indexRouter from './routes/index.js';
-import userRouter from './routes/users.js';
+import userRouter from './routes/user.js';
 
 /**
  * Instantiation of express
@@ -37,6 +38,7 @@ app.set('view engine', 'pug');
 /**
  * Registration of middleware
  */
+app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
 app.use(express.json());

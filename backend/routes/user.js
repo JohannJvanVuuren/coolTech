@@ -2,6 +2,7 @@
  * Dependency modules
  */
 import express from 'express';
+import {logInUser} from "../controllers/user.js";
 
 /**
  * Instantiation of a rRouter object
@@ -10,9 +11,10 @@ import express from 'express';
 const router = express.Router();
 
 
-/* GET users listing. */
-router.get('/', function(req, res) {
-  res.send('respond with a resource');
-});
+/**
+ * Creation of a log in endpoint.
+ */
+router.post('/login', logInUser);
+
 
 export default router;
