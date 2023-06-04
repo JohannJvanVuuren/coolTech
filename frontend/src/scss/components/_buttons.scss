@@ -1,0 +1,39 @@
+/* Styling and typography of buttons */
+.btn-login,
+.btn-register,
+.btn-primary,
+.btn-header,
+.btn-body{
+  margin: 0 0.5rem;
+  border-radius: 1rem;
+  border: none;
+  background: linear-gradient(to bottom, $white-charcoal, $dark-blue);
+  text-transform: uppercase;
+  font-weight: 900;
+  color: $white;
+  font-size: 1.4rem;
+
+  &:hover {
+    background: linear-gradient(to bottom, $white , $dark-blue) ;
+    box-shadow: 1px 1px 3px $light-charcoal,
+    -1px -1px 3px $white;
+  }
+
+  &:active {
+    background: linear-gradient(to bottom, $white-charcoal, $dark-blue);
+  }
+}
+
+.btn-login,
+.btn-register,
+.btn-primary {
+  height: 5rem;
+  width: 10rem;
+}
+
+.btn-header,
+.btn-body {
+  padding: 1rem 1rem;
+  width: 20rem;
+  font-size: 1.1rem;
+}

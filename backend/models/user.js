@@ -22,16 +22,8 @@ const usersSchema = new Schema({
         type: String,
         required: true
     },
-    normal: {
-        type: Boolean,
-        required: true
-    },
-    management: {
-        type: Boolean,
-        required: true
-    },
-    admin: {
-        type: Boolean,
+    role: {
+        type: Object,
         required: true
     },
     organisationalUnitCode: {

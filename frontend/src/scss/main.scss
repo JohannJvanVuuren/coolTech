@@ -3,4 +3,14 @@
 @import 'abstract/variables';
 
 @import 'base/reset';
+@import 'base/typography';
+
+@import 'components/buttons';
+@import 'components/header';
+
+@import 'layout/header';
+@import 'layout/landingPage';
+@import 'layout/registration';
+@import 'layout/registrationFeedback';
+
 @import 'vendors/googleFonts';

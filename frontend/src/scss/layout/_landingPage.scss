@@ -1,0 +1,32 @@
+/* Layout of the landing page that will greet the user when navigating to the application */
+.landing-container {
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  width: 133rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  .landing-logo {
+    img {
+      height: 30rem;
+      width: auto;
+    }
+  }
+
+  .landing-access_btn {
+    margin-top: 1rem;
+  }
+}
+
+/* Responsive screen width laptop to larger screens */
+@media only screen and (min-width: 104rem) {
+  .landing-container {
+    width: 138rem;
+  }
+}

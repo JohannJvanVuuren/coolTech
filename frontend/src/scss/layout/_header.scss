@@ -1,0 +1,19 @@
+/* Layout of the header at the top of all renders */
+.header-container {
+
+  margin: 1rem auto;
+  width: 133rem;
+
+  .header-top {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+}
+
+/* Responsive width laptop to larger screens */
+@media only screen and (min-width: 104rem) {
+  .header-container {
+    width: 138rem;
+  }
+}

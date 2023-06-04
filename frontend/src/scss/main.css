@@ -27,6 +27,163 @@ body {
   min-height: 100vh;
   margin: 0 auto;
   background-color: #B7C4CD;
+  position: relative;
+}
+
+/* Import to enable use of variables */ /* Colour schema */
+/* Blue */
+/* Charcoal */
+.landing-container {
+  color: #000058;
+}
+.landing-container .landing-title {
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+
+/* Typography of the header at the top of each page */
+.header-container .header-title h1 {
+  color: #000058;
+  text-transform: uppercase;
+  font-size: 7rem;
+  font-weight: 300;
+  text-shadow: 2px 2px 6px #171D22, -2px -2px 6px #B7C4CD;
+}
+
+/* Typography of the registration feedback page */
+.feedback-container .primary-message {
+  font-weight: 300;
+  font-size: 5rem;
+  text-transform: uppercase;
+  color: #00003F;
+  text-shadow: 2px 2px 6px #171D22, -2px -2px 6px #B7C4CD;
+  text-align: center;
+}
+.feedback-container .secondary-message {
+  text-align: center;
+  font-size: 2rem;
+  color: #000058;
+}
+
+/* Styling and typography of buttons */
+.btn-login,
+.btn-register,
+.btn-primary,
+.btn-header,
+.btn-body {
+  margin: 0 0.5rem;
+  border-radius: 1rem;
+  border: none;
+  background: linear-gradient(to bottom, #B7C4CD, #00003F);
+  text-transform: uppercase;
+  font-weight: 900;
+  color: #FFFFFF;
+  font-size: 1.4rem;
+}
+.btn-login:hover,
+.btn-register:hover,
+.btn-primary:hover,
+.btn-header:hover,
+.btn-body:hover {
+  background: linear-gradient(to bottom, #FFFFFF, #00003F);
+  box-shadow: 1px 1px 3px #2C3840, -1px -1px 3px #FFFFFF;
+}
+.btn-login:active,
+.btn-register:active,
+.btn-primary:active,
+.btn-header:active,
+.btn-body:active {
+  background: linear-gradient(to bottom, #B7C4CD, #00003F);
+}
+
+.btn-login,
+.btn-register,
+.btn-primary {
+  height: 5rem;
+  width: 10rem;
+}
+
+.btn-header,
+.btn-body {
+  padding: 1rem 1rem;
+  width: 20rem;
+  font-size: 1.1rem;
+}
+
+/* Import to enable use of variables */ /* Colour schema */
+/* Blue */
+/* Charcoal */
+/* Styling of the header that appears at the top of all pages */
+.header-container {
+  background-color: #9FB1BE;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+.header-container .header-logo .header-logo_img {
+  height: 10rem;
+}
+
+/* Layout of the header at the top of all renders */
+.header-container {
+  margin: 1rem auto;
+  width: 133rem;
+}
+.header-container .header-top {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/* Responsive width laptop to larger screens */
+@media only screen and (min-width: 104rem) {
+  .header-container {
+    width: 138rem;
+  }
+}
+/* Layout of the landing page that will greet the user when navigating to the application */
+.landing-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  width: 133rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.landing-container .landing-logo img {
+  height: 30rem;
+  width: auto;
+}
+.landing-container .landing-access_btn {
+  margin-top: 1rem;
+}
+
+/* Responsive screen width laptop to larger screens */
+@media only screen and (min-width: 104rem) {
+  .landing-container {
+    width: 138rem;
+  }
+}
+.registration-form {
+  width: 50rem;
+  margin: 3rem auto;
+}
+
+/* Layout of the registration feedback message and buttons */
+.feedback-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 50%;
+  width: 80%;
 }
 
 /* Import of Google Font 'Lato' */

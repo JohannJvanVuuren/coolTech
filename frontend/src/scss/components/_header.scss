@@ -1,0 +1,17 @@
+/* Import to enable use of variables */
+@import '../abstract/variables';
+
+/* Styling of the header that appears at the top of all pages */
+.header-container {
+
+  background-color: $white-charcoal-dark;
+  padding: 1rem;
+  border-radius: 0.5rem;
+
+  .header-logo {
+
+    .header-logo_img {
+      height: 10rem;
+    }
+  }
+}
