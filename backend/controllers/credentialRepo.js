@@ -17,7 +17,6 @@ import User from '../models/user.js';
 import OrganisationalUnit from '../models/organisationalUnit.js';
 import Division from '../models/division.js';
 import CredentialRepo from '../models/credentialRepo.js';
-import {log} from "debug";
 
 /**
  * Controller to get credential repos that user is authorized to view from the database

@@ -14,7 +14,6 @@ import jwt from 'jsonwebtoken';
  * Import the models needed in this group of controllers
  */
 import User from '../models/user.js'
-import logger from "morgan";
 
 /**
  * The authentication endpoint controller
@@ -71,7 +70,6 @@ export const registerUser = async (req, res) => {
         email,
         firstName,
         surname,
-        role,
         organisationalUnitCode,
         divisionCode,
         password

@@ -73,7 +73,7 @@ export const Registration = () => {
                 setOrganisationalUnits(responses[0].data);
                 setDivisions(responses[1].data);
             }))
-            .then((responses) => {
+            .then(() => {
                 /**
                  * Setting up the arrays of initially non-checked (false) values to keep track of which
                  * checkboxes are ticked in the form. This was set up as a second .then because the
