@@ -25,7 +25,6 @@ export const getCredentialRepos = async (req, res) => {
 
     /* Obtaining the token payload from the headers */
     // const token = req.headers.authorization.split(' ')[1];
-
     const auth = req.headers['authorization'];
     const token = auth.split(' ')[1];
 
@@ -37,53 +36,81 @@ export const getCredentialRepos = async (req, res) => {
         /* Checking the level of access corresponding to the payload */
         if (decoded.normal === true || decoded.management === true || decoded.admin === true) {
 
+            /**
+             * Acquiring the user from the database in order to get the organisational unit codes and corresponding
+             * division codes for which the user is authorised to view credential repos.
+             */
             const user = await User.find({email: decoded.email})
             const userOrganisationalUnitCodes = user[0].organisationalUnitCode;
             const userDivisionCodes = user[0].divisionCode;
-            const userOrganisationalUnitCredentials = [];
+
+            /**
+             * Declaring and initialising arrays for processing the data and also the third one for sending
+             * the credential repo information back to the frontend
+             */
             const userDivisionCredentialArray = [];
             const userDiscreteCredentialsFrontendArray = []
 
+            /**
+             * Acquiring the actual credential repos and pushing them first onto a division array and then
+             * onto an organisational array to make the processing easier
+             */
             for (const unitCode of userOrganisationalUnitCodes) {
                 for (const division of userDivisionCodes) {
+
                     const userCredentialAccess = await CredentialRepo.find({
                         organisationalCode: unitCode,
                         divisionCode: division
                     })
+
                     userDivisionCredentialArray.push(userCredentialAccess);
+
                 }
-                userOrganisationalUnitCredentials.push(userDivisionCredentialArray);
             }
 
-            for (const organisationalUnitRepo of userOrganisationalUnitCredentials) {
-                for (const divisionRepo of organisationalUnitRepo) {
-                    const index = organisationalUnitRepo.indexOf(divisionRepo);
-                    const organisationalUnit = await OrganisationalUnit.find({
-                        organisationalUnitCode: divisionRepo[index].organisationalCode
+            /**
+             * Looping through the processing arrays to find the organisational unit and division names
+             * from their codes; then creating a discrete object for each resource linked to the organisational
+             * unit and division and pushing each of these objects to an array which can be sent back to the
+             * frontend for display
+             */
+            for (const division of userDivisionCredentialArray) {
+                for (const resource of division) {
+
+                    const organisationalUnitQuery = await OrganisationalUnit.find({
+                        organisationalUnitCode: resource.organisationalCode
                     })
-                    const organisationalUnitName = organisationalUnit[0].unitName;
-                    const division = await Division.find({
-                        divisionCode: divisionRepo[index].divisionCode
+                    const organisationalUnitName = organisationalUnitQuery[0].unitName;
+
+                    const divisionQuery = await Division.find({
+                        divisionCode: resource.divisionCode
                     })
-                    const divisionName = division[0].divisionName;
-                    const credentialDiscreteObject = {
+                    const divisionName = divisionQuery[0].divisionName;
+
+                    const discreteResourceObject = {
                         organisationalUnitName: organisationalUnitName,
                         divisionName: divisionName,
-                        resource: divisionRepo[index].resource,
-                        username: divisionRepo[index].username,
-                        password: divisionRepo[index].password
+                        resource: resource.resource,
+                        username: resource.username,
+                        password: resource.password
                     }
-                    userDiscreteCredentialsFrontendArray.push(credentialDiscreteObject);
+
+                   userDiscreteCredentialsFrontendArray.push(discreteResourceObject);
+
                 }
             }
 
-
+            /* Sending a status code with the discrete resources array back to the frontend */
             res.status(200).send(userDiscreteCredentialsFrontendArray);
+
         } else {
+
+            /* An error message if the user is not authorized to view any repositories (fall back) */
             res.status(403).send({'message': 'JWT verified, but not authorized'})
         }
     } catch (error) {
 
+        /* The final catch block that handles JWT verification failure */
         res.status(401).send({'error': 'Bad JWT!'});
 
     }
