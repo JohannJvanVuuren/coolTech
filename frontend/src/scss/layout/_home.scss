@@ -1,0 +1,34 @@
+/* Layout of the landing page that will greet the user when navigating to the application */
+.home-wrapper {
+  position: relative;
+  width: 133rem;
+  
+
+  .home-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    .home-logo {
+      img {
+        height: 30rem;
+        width: auto;
+      }
+    }
+  }
+}
+
+/* Responsive screen width laptop to larger screens */
+@media only screen and (min-width: 104rem) {
+  .home-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

@@ -26,15 +26,25 @@
 }
 
 /* Typography of the registration feedback page */
-.feedback-container {
+.feedback-container,
+.login-feedback-container,
+.logout-feedback-container {
   .primary-message {
     font-weight: 300;
     font-size: 5rem;
     text-transform: uppercase;
-    color: $dark-blue;
     text-shadow: 2px 2px 6px $darkest-charcoal,
     -2px -2px 6px $white-charcoal;
     text-align: center;
+
+  }
+
+  .success {
+    color: $forest-green;
+  }
+
+  .fail {
+    color: $mid-red;
   }
 
   .secondary-message {

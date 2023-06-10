@@ -1,0 +1,19 @@
+/* Layout of the navigation bar that appears after login */
+.navigation-container {
+  margin: 1rem auto;
+  width: 133rem;
+}
+
+.navigation-component {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+/* Responsive width laptop to larger screens */
+@media only screen and (min-width: 104rem) {
+  .navigation-container {
+    width: 138rem;
+  }
+}

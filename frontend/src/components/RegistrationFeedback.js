@@ -14,15 +14,22 @@ import {Header} from "./Header";
  */
 import '../scss/main.css';
 
+/**
+ * Definition of the functional component for rendering user feedback upon registration
+ */
 export const RegistrationFeedback = () => {
 
+    /* Making use of the state transmitted from the Registration component via React Router's Link component,
+    * to read the response status from the backend */
     const location = useLocation();
-    console.log(location)
     const status = location.state.status;
 
+    /* Declaration of variables used for conditional feedback in the component */
     let feedbackMessagePrimary;
     let feedbackMessageSecondary;
 
+    /* Determination of the content of the message that must be displayed depending on the different
+    * status codes received. */
     if (status === 200) {
         feedbackMessagePrimary = 'Registration Successful.';
     } else if (status === 403) {
@@ -33,7 +40,7 @@ export const RegistrationFeedback = () => {
         feedbackMessageSecondary = 'Network or internal server error. Please try again.'
     }
 
-
+    /* Conditional rendering of the component */
     return (
         <div>
             <Header/>

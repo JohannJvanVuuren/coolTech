@@ -1,9 +1,15 @@
 /* Import of SCSS files used to generate the main.css stylesheet */ /* Colour schema */
 /* Blue */
 /* Charcoal */
+/* White */
+/* Green */
+/* Red */
 /* Import to enable use of variables */ /* Colour schema */
 /* Blue */
 /* Charcoal */
+/* White */
+/* Green */
+/* Red */
 /* Global reset */
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,400&display=swap");
 *,
@@ -33,6 +39,9 @@ body {
 /* Import to enable use of variables */ /* Colour schema */
 /* Blue */
 /* Charcoal */
+/* White */
+/* Green */
+/* Red */
 .landing-container {
   color: #000058;
 }
@@ -51,15 +60,28 @@ body {
 }
 
 /* Typography of the registration feedback page */
-.feedback-container .primary-message {
+.feedback-container .primary-message,
+.login-feedback-container .primary-message,
+.logout-feedback-container .primary-message {
   font-weight: 300;
   font-size: 5rem;
   text-transform: uppercase;
-  color: #00003F;
   text-shadow: 2px 2px 6px #171D22, -2px -2px 6px #B7C4CD;
   text-align: center;
 }
-.feedback-container .secondary-message {
+.feedback-container .success,
+.login-feedback-container .success,
+.logout-feedback-container .success {
+  color: #228B22;
+}
+.feedback-container .fail,
+.login-feedback-container .fail,
+.logout-feedback-container .fail {
+  color: #8B2222;
+}
+.feedback-container .secondary-message,
+.login-feedback-container .secondary-message,
+.logout-feedback-container .secondary-message {
   text-align: center;
   font-size: 2rem;
   color: #000058;
@@ -108,11 +130,15 @@ body {
   padding: 1rem 1rem;
   width: 20rem;
   font-size: 1.1rem;
+  margin: 0.5rem;
 }
 
 /* Import to enable use of variables */ /* Colour schema */
 /* Blue */
 /* Charcoal */
+/* White */
+/* Green */
+/* Red */
 /* Styling of the header that appears at the top of all pages */
 .header-container {
   background-color: #9FB1BE;
@@ -121,6 +147,13 @@ body {
 }
 .header-container .header-logo .header-logo_img {
   height: 10rem;
+}
+
+/* Styling of the navigation bar that appears at the top of all pages */
+.navigation-container {
+  background-color: #9FB1BE;
+  padding: 1rem;
+  border-radius: 0.5rem;
 }
 
 /* Layout of the header at the top of all renders */
@@ -138,6 +171,35 @@ body {
 @media only screen and (min-width: 104rem) {
   .header-container {
     width: 138rem;
+  }
+}
+/* Layout of the landing page that will greet the user when navigating to the application */
+.home-wrapper {
+  position: relative;
+  width: 133rem;
+}
+.home-wrapper .home-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.home-wrapper .home-container .home-logo img {
+  height: 30rem;
+  width: auto;
+}
+
+/* Responsive screen width laptop to larger screens */
+@media only screen and (min-width: 104rem) {
+  .home-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 /* Layout of the landing page that will greet the user when navigating to the application */
@@ -164,6 +226,58 @@ body {
 /* Responsive screen width laptop to larger screens */
 @media only screen and (min-width: 104rem) {
   .landing-container {
+    width: 138rem;
+  }
+}
+/* Layout of the login page */
+.login-form {
+  width: 30rem;
+  margin: 10rem auto;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.login-feedback,
+.logout-feedback {
+  position: relative;
+}
+.login-feedback .login-feedback-container,
+.login-feedback .logout-feedback-container,
+.logout-feedback .login-feedback-container,
+.logout-feedback .logout-feedback-container {
+  margin-top: 15rem;
+}
+
+.feedback-container__btn {
+  display: block;
+  position: relative;
+  height: 7rem;
+}
+.feedback-container__btn .logout-link {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Layout of the navigation bar that appears after login */
+.navigation-container {
+  margin: 1rem auto;
+  width: 133rem;
+}
+
+.navigation-component {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+/* Responsive width laptop to larger screens */
+@media only screen and (min-width: 104rem) {
+  .navigation-container {
     width: 138rem;
   }
 }

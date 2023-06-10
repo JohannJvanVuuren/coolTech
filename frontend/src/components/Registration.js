@@ -2,8 +2,6 @@
  * Dependency modules and hooks
  */
 import axios from 'axios';
-import {ToastContainer, toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'
 import {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 
@@ -45,6 +43,7 @@ export const Registration = () => {
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
     const [surname, setSurname] = useState('');
+    /* Setting the default user role as normal */
     const [role, setRole] = useState({
         normal: true,
         management: false,
@@ -157,7 +156,7 @@ export const Registration = () => {
 
 
     /**
-     * All actions required upon form submission is handled in this function including
+     * All actions required upon form submission are handled in this function, including
      * the API call to the backend
      */
     const formSubmitHandler = async (event) => {
@@ -192,13 +191,9 @@ export const Registration = () => {
 
         try {
         /* The axios post request to the backend */
-        await toast.promise(axios.post(url, config),
-            {
-                pending: 'Request in progress',
-                success: 'Registration Successful',
-                error: 'Registration rejected'
-            })
+        await axios.post(url, config)
             .then(response => {
+                /* Navigation to the registration feedback page for user feedback */
                 navigate('/registrationFeedback', {
                     state: {
                         status: response.status,
@@ -220,9 +215,9 @@ export const Registration = () => {
      * Rendering of the form with the help of the React Bootstrap Form component
      */
     return (
-
         <div>
             <Header/>
+            {/* The React Bootstrap form component and children for the rendering of the form */}
             <Form className={'registration-form'} onSubmit={formSubmitHandler}>
                 <Form.Group className="mb-3 form-group" controlId="formBasicEmail">
                     <Form.Label className={'h2'}>Email address</Form.Label>
@@ -248,6 +243,7 @@ export const Registration = () => {
                         onChange={event => setSurname(event.target.value)}
                     />
                 </Form.Group>
+                {/* The default user role was set as normal using state */}
                 <Form.Group className="mb-3 form-group">
                     <Form.Label className={'h2'}>Role</Form.Label>
                     <Form.Select id="role" onChange={roleSelectHandler}>
@@ -256,6 +252,8 @@ export const Registration = () => {
                         <option value={'admin'}>Administrator</option>
                     </Form.Select>
                 </Form.Group>
+                {/* A Array.prototype.map method was used to loop through and list the respective units. The
+                 same technique is used below when listing the divisions */}
                 <Form.Group className={'mb-3 form-group'} controlId={'formBasicCheckbox'}>
                     <Form.Label className={'h2'}>Organisational Units</Form.Label>
                     {organisationalUnits.map((unit, index) => {
@@ -302,7 +300,7 @@ export const Registration = () => {
                         onChange={event => setPassword(event.target.value)}
                     />
                 </Form.Group>
-
+                {/* The buttons were grouped together for styling reasons. */}
                 <div>
                     <Button
                         variant="primary"
@@ -311,28 +309,7 @@ export const Registration = () => {
                     >
                         Submit
                     </Button>
-                    <Button
-                        variant="primary"
-                        type="submit"
-                        className={'form-buttons'}
-                        onClick={() => navigate('/login')}
-                    >
-                        Continue
-                    </Button>
-                    <ToastContainer
-                        position="top-center"
-                        autoClose={2000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme="dark"
-                    />
                 </div>
-
             </Form>
         </div>
     );

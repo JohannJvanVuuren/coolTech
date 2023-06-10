@@ -1,0 +1,12 @@
+.feedback-container__btn {
+  display: block;
+  position: relative;
+  height: 7rem;
+  .logout-link {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+}

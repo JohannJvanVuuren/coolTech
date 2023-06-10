@@ -19,6 +19,7 @@ import indexRouter from './routes/index.js';
 import userRouter from './routes/user.js';
 import organisationalUnitRouter from './routes/organisationalUnit.js';
 import divisionRouter from './routes/division.js';
+import credentialRepoRouter from './routes/credentialRepo.js';
 
 /**
  * Instantiation of express
@@ -56,6 +57,7 @@ app.use('/', indexRouter);
 app.use('/api', userRouter);
 app.use('/api', organisationalUnitRouter);
 app.use('/api', divisionRouter);
+app.use('/api', credentialRepoRouter);
 
 /**
  * Setup of the default Helmet settings for the app
