@@ -15,8 +15,6 @@ import {findUnitDivisionNames} from './helpers.js';
  * Import of models needed in this controller
  */
 import User from '../models/user.js';
-import OrganisationalUnit from '../models/organisationalUnit.js';
-import Division from '../models/division.js';
 import CredentialRepo from '../models/credentialRepo.js';
 
 /**
@@ -126,7 +124,9 @@ export const addCredentials = async (req, res) => {
     const token = auth.split(' ')[1];
 
     /* Acquiring the new credentials from the body of the request */
-    const {organisationalCode, divisionCode, resource, username, password} = req.body;
+    const {resource, username, password} = req.body;
+
+    console.log(resource);
 
     /* Decoding and verifying the JWT token */
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -145,7 +145,7 @@ export const addCredentials = async (req, res) => {
          * If not found a new document is added to the collection, otherwise an error is produced to alert
          * the user that the document already exists
          */
-        if (newCredential.length === 0 || newCredential === undefined) {
+        if (newCredential.length === 0) {
 
             try {
                 const newCredential = new CredentialRepo(req.body);

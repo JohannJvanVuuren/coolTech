@@ -25,8 +25,6 @@ export const findUnitDivisionNames = async (organisationalCode, divisionCode) =>
      * Creation of an array that will be returned from this function and destructured in the functions
      * where it is needed
      */
-    const unitDivisionNamesArray = [organisationalUnitName, divisionName];
-
-    return unitDivisionNamesArray;
+    return [organisationalUnitName, divisionName];
 
 }
