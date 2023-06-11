@@ -20,6 +20,7 @@ export const Login = () => {
     const navigate = useNavigate();
 
     /* Declaration and initialisation of the state variables */
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -74,6 +75,7 @@ export const Login = () => {
                         type="email"
                         placeholder="Enter email"
                         onChange={event => setEmail(event.target.value)}
+                        autoFocus
                     />
                 </Form.Group>
 

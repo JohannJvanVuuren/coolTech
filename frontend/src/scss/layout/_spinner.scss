@@ -1,0 +1,13 @@
+/* Layout and size of the loading spinner */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: inherit;
+
+  .spinner {
+    height: 5rem;
+    width: 5rem;
+  }
+}
+

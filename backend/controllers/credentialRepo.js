@@ -69,7 +69,7 @@ export const getCredentialRepos = async (req, res) => {
             }
 
             /**
-             * Looping through the processing arrays to find the organisational unit and division names
+             * Looping through the processing array to find the organisational unit and division names
              * from their codes; then creating a discrete object for each resource linked to the organisational
              * unit and division and pushing each of these objects to an array which can be sent back to the
              * frontend for display
@@ -105,7 +105,7 @@ export const getCredentialRepos = async (req, res) => {
 
         } else {
 
-            /* An error message if the user is not authorized to view any repositories (fall back) */
+            /* An error message if the user is not authorised to view any repositories (fall back) */
             res.status(403).send({'message': 'JWT verified, but not authorized'})
         }
     } catch (error) {

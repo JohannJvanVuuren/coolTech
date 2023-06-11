@@ -16,8 +16,12 @@ import {NavigationBar} from "./NavigationBar";
 import '../scss/main.css';
 /* Import of Styled React Bootstrap Table */
 import Table from 'react-bootstrap/Table';
+import Spinner from 'react-bootstrap/Spinner';
 
-export const ViewCredentialRepo = () =>{
+export const ViewCredentialRepo = () => {
+
+    /* Declaring and initialising state variable */
+    const [isLoading, setIsLoading] = useState(false);
 
     /* Declaration of the array used for rendering the table data of the credential repos */
     const [userDiscreteCredentials, setUserDiscreteCredentials] = useState([]);
@@ -27,6 +31,8 @@ export const ViewCredentialRepo = () =>{
      * needs to be displayed on this page
      */
     useEffect(() => {
+
+        setIsLoading(true);
 
         /* Acquiring the JWT token from localStorage */
         const token = localStorage.getItem('JWT token')
@@ -44,7 +50,7 @@ export const ViewCredentialRepo = () =>{
             .then(response => {
                 console.log(response.data)
                 setUserDiscreteCredentials(response.data)
-
+                setIsLoading(false);
             })
             .catch(error => {
 
@@ -58,44 +64,51 @@ export const ViewCredentialRepo = () =>{
         <div className={'view-credentials-wrapper'}>
             <Header/>
             <NavigationBar/>
-            <Table
-                striped
-                bordered
-                hover
-                responsive
-                className={'mt-5 view-credentials-table'}
-            >
-                <thead>
-                <tr>
-                    <th
-                        colSpan="5"
-                        className={'view-credentials-table_heading'}
+            {isLoading ?
+                <div className={'spinner-container'}>
+                    <Spinner className={'mx-auto mt-5 spinner'} animation="border" variant='light'/>
+                </div> :
+                <div className={'card'}>
+                    <Table
+                        striped
+                        bordered
+                        hover
+                        responsive
+                        className={'mt-5'}
                     >
-                        Authorised Credential Repos
-                    </th>
-                </tr>
-                <tr>
-                    <th>Organisational Unit</th>
-                    <th>Division</th>
-                    <th>Resource</th>
-                    <th>Username</th>
-                    <th>Password</th>
-                </tr>
-                </thead>
-                <tbody>
-                {userDiscreteCredentials.map((resource, index) => {
-                    return (
-                        <tr key={index}>
-                            <td>{resource.organisationalUnitName}</td>
-                            <td>{resource.divisionName}</td>
-                            <td>{resource.resource}</td>
-                            <td>{resource.username}</td>
-                            <td>{resource.password}</td>
+                        <thead>
+                        <tr>
+                            <th
+                                colSpan="5"
+                                className={'view-credentials-table_heading h2 fw-bold text-center'}
+                            >
+                                Authorised Credential Repos
+                            </th>
                         </tr>
-                    )
-                })}
-                </tbody>
-            </Table>
+                        <tr>
+                            <th className={'h4 fw-bold'}>Organisational Unit</th>
+                            <th className={'h4 fw-bold'}>Division</th>
+                            <th className={'h4 fw-bold'}>Resource</th>
+                            <th className={'h4 fw-bold'}>Username</th>
+                            <th className={'h4 fw-bold'}>Password</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {userDiscreteCredentials.map((resource, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td className={'h5'}>{resource.organisationalUnitName}</td>
+                                    <td className={'h5'}>{resource.divisionName}</td>
+                                    <td className={'h5'}>{resource.resource}</td>
+                                    <td className={'h5'}>{resource.username}</td>
+                                    <td className={'h5'}>{resource.password}</td>
+                                </tr>
+                            )
+                        })}
+                        </tbody>
+                    </Table>
+                </div>
+            }
         </div>
     );
 }

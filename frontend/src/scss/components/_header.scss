@@ -7,6 +7,8 @@
   background-color: $white-charcoal-dark;
   padding: 1rem;
   border-radius: 0.5rem;
+  box-shadow: 1rem 1rem 3rem $light-charcoal,
+  -1rem -1rem 3rem $white-charcoal;
 
   .header-logo {
 
