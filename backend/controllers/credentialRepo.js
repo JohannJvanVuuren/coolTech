@@ -6,9 +6,10 @@ import dotenv from 'dotenv';
 dotenv.config({path: './config/config.env'});
 
 /**
- * Dependency modules
+ * Dependency modules, files and functions
  */
 import jwt from 'jsonwebtoken';
+import {findUnitDivisionNames} from './helpers.js';
 
 /**
  * Import of models needed in this controller
@@ -24,7 +25,6 @@ import CredentialRepo from '../models/credentialRepo.js';
 export const getCredentialRepos = async (req, res) => {
 
     /* Obtaining the token payload from the headers */
-    // const token = req.headers.authorization.split(' ')[1];
     const auth = req.headers['authorization'];
     const token = auth.split(' ')[1];
 
@@ -77,16 +77,19 @@ export const getCredentialRepos = async (req, res) => {
             for (const division of userDivisionCredentialArray) {
                 for (const resource of division) {
 
-                    const organisationalUnitQuery = await OrganisationalUnit.find({
-                        organisationalUnitCode: resource.organisationalCode
-                    })
-                    const organisationalUnitName = organisationalUnitQuery[0].unitName;
+                    /*
+                     * Using the helper function and destructuring of the array returned from it
+                     * to obtain the organisational unit and division names
+                     */
+                    const unitDivisionNamesArray = await findUnitDivisionNames(resource.organisationalCode,
+                        resource.divisionCode);
+                    console.log(unitDivisionNamesArray)
+                    const [organisationalUnitName, divisionName] = unitDivisionNamesArray;
 
-                    const divisionQuery = await Division.find({
-                        divisionCode: resource.divisionCode
-                    })
-                    const divisionName = divisionQuery[0].divisionName;
-
+                    /*
+                     * Creating a discrete resource object per organisational unit per division which is pushed
+                     * to an array which is sent as a response to the frontend
+                     */
                     const discreteResourceObject = {
                         organisationalUnitName: organisationalUnitName,
                         divisionName: divisionName,
@@ -95,7 +98,7 @@ export const getCredentialRepos = async (req, res) => {
                         password: resource.password
                     }
 
-                   userDiscreteCredentialsFrontendArray.push(discreteResourceObject);
+                    userDiscreteCredentialsFrontendArray.push(discreteResourceObject);
 
                 }
             }
@@ -114,4 +117,54 @@ export const getCredentialRepos = async (req, res) => {
         res.status(401).send({'error': 'Bad JWT!'});
 
     }
+}
+
+export const addCredentials = async (req, res) => {
+
+    /* Acquiring the token payload from the headers */
+    const auth = req.headers['authorization'];
+    const token = auth.split(' ')[1];
+
+    /* Acquiring the new credentials from the body of the request */
+    const {organisationalCode, divisionCode, resource, username, password} = req.body;
+
+    /* Decoding and verifying the JWT token */
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    /* Checking user authorisation based on the JWT payload */
+    if (decoded.normal === true || decoded.management === true || decoded.admin === true) {
+
+        /* Attempting to find the credential in question */
+        const newCredential = await CredentialRepo.find({
+            resource: resource,
+            username: username,
+            password: password
+        })
+
+        /*
+         * If not found a new document is added to the collection, otherwise an error is produced to alert
+         * the user that the document already exists
+         */
+        if (newCredential.length === 0 || newCredential === undefined) {
+
+            try {
+                const newCredential = new CredentialRepo(req.body);
+                await newCredential.save();
+                res.status(200).send({'message': 'Credentials Added'})
+            } catch (err) {
+                res.status(500).send({message: 'There was an error while registering the user.'});
+            }
+
+        } else {
+
+            res.status(403).send({'message': 'Credential Already Exists'});
+
+        }
+    } else {
+
+        /* An error message if the user is not authorised to view any repositories (fall back) */
+        res.status(403).send({'message': 'JWT verified, but not authorized'}).end()
+
+    }
+
 }
