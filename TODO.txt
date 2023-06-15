@@ -1,3 +1,0 @@
-Create frontend page for view credential that sends the JWT token back to the backend for verification DONE
-Create frontend component to make an API call to view-credentials and display the users authorised credentials DONE
-Create add credentials to repo functionality

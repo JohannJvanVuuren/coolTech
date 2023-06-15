@@ -38,3 +38,13 @@
   font-size: 1.1rem;
   margin: 0.5rem;
 }
+
+.feedback-container__btn {
+  position: relative;
+  .btn-register {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

@@ -4,6 +4,7 @@
 import express from 'express';
 import {getCredentialRepos} from "../controllers/credentialRepo.js";
 import {addCredentials} from "../controllers/credentialRepo.js";
+import {updateCredential} from "../controllers/credentialRepo.js";
 
 /**
  * Instantiation of a Router object
@@ -19,5 +20,10 @@ router.get('/view-credentials', getCredentialRepos);
  * Creation of an 'add credentials to repo' endpoint
  */
 router.post('/add-credentials', addCredentials);
+
+/**
+ * Creation of a 'update credential' endpoint
+ */
+router.post('/update-credential', updateCredential)
 
 export default router;

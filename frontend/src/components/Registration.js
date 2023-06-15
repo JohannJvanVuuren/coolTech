@@ -195,10 +195,10 @@ export const Registration = () => {
             .then(response => {
                 /* Navigation to the registration feedback page for user feedback */
                 navigate('/registrationFeedback', {
+                    replace: true,
                     state: {
                         status: response.status,
-                    },
-                    replace: true
+                    }
                 })
             })
         } catch (error) {

@@ -69,6 +69,7 @@ export const Login = () => {
                 className={'login-form'}
                 onSubmit={loginFormSubmitHandler}
             >
+                <h1 className={'login-form__heading'}>Login Form</h1>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label className={'h4'}>Email address</Form.Label>
                     <Form.Control

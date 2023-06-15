@@ -17,7 +17,7 @@ export const NavigationBar = () => {
                     </button>
                 </Link>
                 <Link
-                    to={'/viewCredentials'}
+                    to={'/addCredentialRepo'}
                 >
                     <button className={'btn-header'}>
                         Add Credential To Repo

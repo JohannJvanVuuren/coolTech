@@ -59,10 +59,22 @@ body {
   text-shadow: 2px 2px 6px #171D22, -2px -2px 6px #B7C4CD;
 }
 
+/* Typography of the login page */
+.login-form .login-form__heading {
+  text-align: center;
+  margin-bottom: 5rem;
+  text-transform: uppercase;
+  color: #00003F;
+  font-size: 4rem;
+  font-weight: 300;
+  text-shadow: 2px 2px 6px #171D22, -2px -2px 6px #B7C4CD;
+}
+
 /* Typography of the registration feedback page */
 .feedback-container .primary-message,
 .login-feedback-container .primary-message,
-.logout-feedback-container .primary-message {
+.logout-feedback-container .primary-message,
+.add-credentials-container .primary-message {
   font-weight: 300;
   font-size: 5rem;
   text-transform: uppercase;
@@ -71,20 +83,34 @@ body {
 }
 .feedback-container .success,
 .login-feedback-container .success,
-.logout-feedback-container .success {
+.logout-feedback-container .success,
+.add-credentials-container .success {
   color: #228B22;
 }
 .feedback-container .fail,
 .login-feedback-container .fail,
-.logout-feedback-container .fail {
+.logout-feedback-container .fail,
+.add-credentials-container .fail {
   color: #8B2222;
 }
 .feedback-container .secondary-message,
 .login-feedback-container .secondary-message,
-.logout-feedback-container .secondary-message {
+.logout-feedback-container .secondary-message,
+.add-credentials-container .secondary-message {
   text-align: center;
   font-size: 2rem;
   color: #000058;
+}
+
+/* Typography of the add credential repo page */
+.add-repo-form .add-repo-form__heading {
+  text-align: center;
+  margin: 5rem auto;
+  text-transform: uppercase;
+  color: #00003F;
+  font-size: 4rem;
+  font-weight: 300;
+  text-shadow: 2px 2px 6px #171D22, -2px -2px 6px #B7C4CD;
 }
 
 /* Styling and typography of buttons */
@@ -133,6 +159,16 @@ body {
   margin: 0.5rem;
 }
 
+.feedback-container__btn {
+  position: relative;
+}
+.feedback-container__btn .btn-register {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 /* Import to enable use of variables */ /* Colour schema */
 /* Blue */
 /* Charcoal */
@@ -163,6 +199,23 @@ body {
   margin-left: auto;
   margin-right: auto;
   border: none;
+}
+
+.add-repo-form {
+  width: 50rem;
+  margin: 3rem auto;
+}
+
+/* Layout of the AddCredentialFeedback page and message */
+.add-credentials-wrapper {
+  position: relative;
+  height: 50vh;
+}
+.add-credentials-wrapper .add-credentials-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* Layout of the header at the top of all renders */

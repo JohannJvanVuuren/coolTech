@@ -120,13 +120,12 @@ export const getCredentialRepos = async (req, res) => {
 export const addCredentials = async (req, res) => {
 
     /* Acquiring the token payload from the headers */
+    console.log(req)
     const auth = req.headers['authorization'];
     const token = auth.split(' ')[1];
 
     /* Acquiring the new credentials from the body of the request */
     const {resource, username, password} = req.body;
-
-    console.log(resource);
 
     /* Decoding and verifying the JWT token */
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -157,7 +156,7 @@ export const addCredentials = async (req, res) => {
 
         } else {
 
-            res.status(403).send({'message': 'Credential Already Exists'});
+            res.status(403).send({'error': 'Credential Already Exists'});
 
         }
     } else {
@@ -166,5 +165,10 @@ export const addCredentials = async (req, res) => {
         res.status(403).send({'message': 'JWT verified, but not authorized'}).end()
 
     }
+
+}
+
+// TODO: Create endpoint for updating a specific credential (Management only)
+export const updateCredential = async (req, res) => {
 
 }
