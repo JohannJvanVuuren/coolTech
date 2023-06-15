@@ -27,8 +27,6 @@ export const AddCredentialRepo = () => {
     const [organisationalCode, setOrganisationalCode] = useState('');
     const [divisions, setDivisions] = useState([]);
     const [divisionCode, setDivisionCode] = useState('');
-    const [orgUnitCheckedState, setOrgUnitCheckedState] = useState([]);
-    const [divisionCheckedState, setDivisionCheckedState] = useState([]);
     const [resource, setResource] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

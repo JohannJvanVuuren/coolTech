@@ -2,7 +2,6 @@
  * Dependency modules, files and functions
  */
 import jwt from 'jsonwebtoken';
-import {findUnitDivisionNames} from './helpers.js';
 
 /**
  * Import of the models needed by these controllers
