@@ -24,7 +24,7 @@ export const NavigationBar = () => {
                     </button>
                 </Link>
                 <Link
-                    to={'/viewCredentials'}
+                    to={'/updateCredentialView'}
                 >
                     <button className={'btn-header'}>
                         Update Credentials
@@ -41,7 +41,7 @@ export const NavigationBar = () => {
                     to={'/viewCredentials'}
                 >
                     <button className={'btn-header'}>
-                        Remove User from OU/Div
+                         Designing User from OU/Div
                     </button>
                 </Link>
                 <Link

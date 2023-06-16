@@ -70,11 +70,12 @@ body {
   text-shadow: 2px 2px 6px #171D22, -2px -2px 6px #B7C4CD;
 }
 
-/* Typography of the registration feedback page */
+/* Typography of the feedback pages */
 .feedback-container .primary-message,
 .login-feedback-container .primary-message,
 .logout-feedback-container .primary-message,
-.add-credentials-container .primary-message {
+.add-credentials-container .primary-message,
+.view-credentials-container .primary-message {
   font-weight: 300;
   font-size: 5rem;
   text-transform: uppercase;
@@ -84,19 +85,22 @@ body {
 .feedback-container .success,
 .login-feedback-container .success,
 .logout-feedback-container .success,
-.add-credentials-container .success {
+.add-credentials-container .success,
+.view-credentials-container .success {
   color: #228B22;
 }
 .feedback-container .fail,
 .login-feedback-container .fail,
 .logout-feedback-container .fail,
-.add-credentials-container .fail {
+.add-credentials-container .fail,
+.view-credentials-container .fail {
   color: #8B2222;
 }
 .feedback-container .secondary-message,
 .login-feedback-container .secondary-message,
 .logout-feedback-container .secondary-message,
-.add-credentials-container .secondary-message {
+.add-credentials-container .secondary-message,
+.view-credentials-container .secondary-message {
   text-align: center;
   font-size: 2rem;
   color: #000058;
@@ -118,7 +122,8 @@ body {
 .btn-register,
 .btn-primary,
 .btn-header,
-.btn-body {
+.btn-body,
+.table-btn {
   margin: 0 0.5rem;
   border-radius: 1rem;
   border: none;
@@ -132,7 +137,8 @@ body {
 .btn-register:hover,
 .btn-primary:hover,
 .btn-header:hover,
-.btn-body:hover {
+.btn-body:hover,
+.table-btn:hover {
   background: linear-gradient(to bottom, #FFFFFF, #00003F);
   box-shadow: 1px 1px 3px #2C3840, -1px -1px 3px #FFFFFF;
 }
@@ -140,7 +146,8 @@ body {
 .btn-register:active,
 .btn-primary:active,
 .btn-header:active,
-.btn-body:active {
+.btn-body:active,
+.table-btn:active {
   background: linear-gradient(to bottom, #B7C4CD, #00003F);
 }
 
@@ -167,6 +174,12 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.table-btn {
+  padding: 0.5rem;
+  font-size: 1.4rem;
+  text-transform: unset;
 }
 
 /* Import to enable use of variables */ /* Colour schema */

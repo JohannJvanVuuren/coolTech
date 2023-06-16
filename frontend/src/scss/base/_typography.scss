@@ -40,11 +40,12 @@
   }
 }
 
-/* Typography of the registration feedback page */
+/* Typography of the feedback pages */
 .feedback-container,
 .login-feedback-container,
 .logout-feedback-container,
-.add-credentials-container {
+.add-credentials-container,
+.view-credentials-container {
   .primary-message {
     font-weight: 300;
     font-size: 5rem;
@@ -82,3 +83,4 @@
     -2px -2px 6px $white-charcoal;
   }
 }
+

@@ -3,7 +3,8 @@
 .btn-register,
 .btn-primary,
 .btn-header,
-.btn-body{
+.btn-body,
+.table-btn {
   margin: 0 0.5rem;
   border-radius: 1rem;
   border: none;
@@ -47,4 +48,10 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
+}
+
+.table-btn {
+  padding: 0.5rem;
+  font-size: 1.4rem;
+  text-transform: unset;
 }

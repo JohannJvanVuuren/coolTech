@@ -64,21 +64,12 @@ export const AddCredentialRepo = () => {
                 setOrganisationalUnits(responses[0].data);
                 setDivisions(responses[1].data);
             }))
-            .then(() => {
-                /**
-                 * Setting up the arrays of initially non-checked (false) values to keep track of which
-                 * checkboxes are ticked in the form. This was set up as a second .then because the
-                 * values in the first promise were needed
-                 */
-                setDivisionCheckedState(new Array(divisions.length).fill(false));
-                setOrgUnitCheckedState(new Array(organisationalUnits.length).fill(false));
-            })
             .catch(error => {
                 console.log(error);
             });
 
 
-    }, [divisions.length, organisationalUnits.length]);
+    }, [divisions.length, organisationalUnits.length, token]);
 
     /**
      * This function keeps track of which radio button in the organisational unit
@@ -124,9 +115,7 @@ export const AddCredentialRepo = () => {
 
         axios.post(apiUrl, config, headers)
             .then(response => {
-                console.log(response.data)
                 navigate('/addCredentialFeedback', {
-                    // replace: true,
                     state: {
                         message: response.data,
                         status: response.status
@@ -134,9 +123,7 @@ export const AddCredentialRepo = () => {
                 })
             })
             .catch(error => {
-                console.log(error)
                 navigate('/addCredentialFeedback', {
-                    // replace: true,
                     state: {
                         status: error.request.status,
                         message: error.response.data.error

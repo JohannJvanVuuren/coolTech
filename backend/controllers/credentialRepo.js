@@ -9,6 +9,7 @@ dotenv.config({path: './config/config.env'});
  * Dependency modules, files and functions
  */
 import jwt from 'jsonwebtoken';
+import {ObjectId} from "mongodb";
 import {findUnitDivisionNames} from './helpers.js';
 
 /**
@@ -81,14 +82,17 @@ export const getCredentialRepos = async (req, res) => {
                      */
                     const unitDivisionNamesArray = await findUnitDivisionNames(resource.organisationalCode,
                         resource.divisionCode);
-                    console.log(unitDivisionNamesArray)
                     const [organisationalUnitName, divisionName] = unitDivisionNamesArray;
+
+                    const credentialObjectId = resource._id;
+                    const credentialIdString = credentialObjectId.toString();
 
                     /*
                      * Creating a discrete resource object per organisational unit per division which is pushed
                      * to an array which is sent as a response to the frontend
                      */
                     const discreteResourceObject = {
+                        credentialRepoId: credentialIdString,
                         organisationalUnitName: organisationalUnitName,
                         divisionName: divisionName,
                         resource: resource.resource,
@@ -117,58 +121,110 @@ export const getCredentialRepos = async (req, res) => {
     }
 }
 
+/**
+ * Controller for adding credentials to a repo.
+ */
 export const addCredentials = async (req, res) => {
 
-    /* Acquiring the token payload from the headers */
-    console.log(req)
-    const auth = req.headers['authorization'];
-    const token = auth.split(' ')[1];
+    /* Try-catch in case JWT verification fails */
+    try {
 
-    /* Acquiring the new credentials from the body of the request */
-    const {resource, username, password} = req.body;
+        /* Acquiring the token payload from the headers */
+        const auth = req.headers['authorization'];
+        const token = auth.split(' ')[1];
 
-    /* Decoding and verifying the JWT token */
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        /* Acquiring the new credentials from the body of the request */
+        const {resource, username, password} = req.body;
 
-    /* Checking user authorisation based on the JWT payload */
-    if (decoded.normal === true || decoded.management === true || decoded.admin === true) {
+        /* Decoding and verifying the JWT token */
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        /* Attempting to find the credential in question */
-        const newCredential = await CredentialRepo.find({
-            resource: resource,
-            username: username,
-            password: password
-        })
+        /* Checking user authorisation based on the JWT payload */
+        if (decoded.normal === true || decoded.management === true || decoded.admin === true) {
 
-        /*
-         * If not found a new document is added to the collection, otherwise an error is produced to alert
-         * the user that the document already exists
-         */
-        if (newCredential.length === 0) {
+            /* Attempting to find the credential in question */
+            const newCredential = await CredentialRepo.find({
+                resource: resource,
+                username: username,
+                password: password
+            })
 
-            try {
-                const newCredential = new CredentialRepo(req.body);
-                await newCredential.save();
-                res.status(200).send({'message': 'Credentials Added'})
-            } catch (err) {
-                res.status(500).send({message: 'There was an error while registering the user.'});
+            /*
+             * If not found a new document is added to the collection, otherwise an error is produced to alert
+             * the user that the document already exists
+             */
+            if (newCredential.length === 0) {
+
+                try {
+                    const newCredential = new CredentialRepo(req.body);
+                    await newCredential.save();
+                    res.status(200).send({'message': 'Credentials Added'})
+                } catch (err) {
+                    res.status(500).send({message: 'There was an error while registering the user.'});
+                }
+
+            } else {
+
+                res.status(403).send({'error': 'Credential Already Exists'});
+
             }
+        } else {
+
+            /* An error message if the user is not authorised to view any repositories (fall back) */
+            res.status(403).send({'message': 'JWT verified, but not authorized'})
+
+        }
+    } catch (e) {
+        res.status(401).send({'error': 'Bad JWT!'})
+    }
+}
+
+/**
+ * Controller for updating credentials in a repo
+ * */
+export const updateCredential = async (req, res) => {
+
+    /* Try-catch block in case JWT verification fails */
+    try {
+
+        /* Acquiring the token payload from the headers */
+        const auth = req.headers['authorization'];
+        const token = auth.split(' ')[1];
+
+        /* Decoding and verifying the JWT token */
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        /* Acquiring the details needed for the credential update */
+        const {credentialRepoId, resource, username, password} = req.body;
+
+        if (decoded.management === true || decoded.admin === true) {
+
+
+            const updatedCredentialDocument = await CredentialRepo.findOneAndUpdate(
+                {_id: new ObjectId(credentialRepoId)},
+                {
+                    resource: resource,
+                    username: username,
+                    password: password,
+                },
+                {
+                    new: true
+                }
+            )
+
+            res.status(200).send({'message': 'Credential successfully updated'})
 
         } else {
 
-            res.status(403).send({'error': 'Credential Already Exists'});
+            /* An error message if the user is not authorised to  update any credentials (fall back) */
+            res.status(403).send({'message': 'JWT verified, but not authorized'})
 
         }
-    } else {
+    } catch (e) {
 
-        /* An error message if the user is not authorised to view any repositories (fall back) */
-        res.status(403).send({'message': 'JWT verified, but not authorized'}).end()
+        res.status(401).send({'error': 'Bad JWT!'})
 
     }
 
-}
-
-// TODO: Create endpoint for updating a specific credential (Management only)
-export const updateCredential = async (req, res) => {
 
 }

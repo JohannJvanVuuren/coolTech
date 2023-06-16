@@ -98,3 +98,43 @@ export const registerUser = async (req, res) => {
         }
     }
 }
+
+// TODO: Add 'assign users to OU/Div' endpoint
+export const assignUsers = async (req, res) => {
+
+    /* Obtaining the token payload from the headers */
+    const auth = req.headers['authorization'];
+    const token = auth.split(' ')[1];
+
+
+    /* Try-catch block in case of JWT verification failures */
+    try {
+
+        /* Verifying and decoding the payload with the secret code */
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        if (decoded.admin === true) {
+
+            // TODO: Create frontend to see what format the data will be
+
+
+        } else {
+
+            /* An error message if the user is not authorised to view any repositories (fall back) */
+            res.status(403).send({'message': 'JWT verified, but not authorized'})
+
+        }
+
+    } catch (err) {
+
+        /* Error message when the JWT verification fails */
+        res.status(401).send({'error': 'Bad JWT!'})
+
+    }
+
+
+}
+
+
+
+// TODO: Add 'remove users from OU/Div' endpoint
