@@ -28,3 +28,21 @@ export const findUnitDivisionNames = async (organisationalCode, divisionCode) =>
     return [organisationalUnitName, divisionName];
 
 }
+
+export const findOrganisationalUnitName = async (organisationalCode) =>{
+    const organisationalUnitQuery = await OrganisationalUnit.find({
+        organisationalUnitCode: organisationalCode
+    })
+
+    return organisationalUnitQuery[0].unitName
+
+}
+
+export const findDivisionName = async (divisionCode) =>{
+    const divisionQuery = await Division.find({
+        divisionCode: divisionCode
+    })
+
+    return divisionQuery[0].divisionName;
+
+}

@@ -56,3 +56,4 @@ export const getAuthorisedDivisions = async (req, res) => {
         res.status(401).send({'error': 'Bad JWT!'});
     }
 }
+

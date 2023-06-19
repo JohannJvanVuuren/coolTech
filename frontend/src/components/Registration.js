@@ -315,4 +315,3 @@ export const Registration = () => {
     );
 }
 
-export default axios;

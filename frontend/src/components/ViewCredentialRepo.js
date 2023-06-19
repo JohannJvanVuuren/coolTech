@@ -48,7 +48,6 @@ export const ViewCredentialRepo = () => {
         /* Axios call to the backend endpoint 'view-credentials' */
         axios.get(apiUrl, config)
             .then(response => {
-                console.log(response.data)
                 setUserDiscreteCredentials(response.data)
                 setIsLoading(false);
             })

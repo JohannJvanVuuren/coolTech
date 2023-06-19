@@ -84,3 +84,30 @@
   }
 }
 
+/* Typography of the reassign user page */
+.reassign-user-wrapper {
+  h2,
+  h3 {
+    font-weight: 700;
+    color: $mid-blue;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 3px $darkest-charcoal,
+    -1px -1px 3px $white-charcoal;
+    text-align: center;
+  }
+
+  h3 {
+    font-weight: unset;
+    text-align: left;
+    text-transform: unset;
+    color: $mid-red;
+  }
+
+    .h2 {
+      color: $mid-blue;
+      text-shadow: 1px 1px 3px $darkest-charcoal,
+      -1px -1px 3px $white-charcoal;
+      color: $forest-green;
+      font-weight: unset;
+    }
+}

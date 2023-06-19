@@ -117,6 +117,28 @@ body {
   text-shadow: 2px 2px 6px #171D22, -2px -2px 6px #B7C4CD;
 }
 
+/* Typography of the reassign user page */
+.reassign-user-wrapper h2,
+.reassign-user-wrapper h3 {
+  font-weight: 700;
+  color: #000058;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 3px #171D22, -1px -1px 3px #B7C4CD;
+  text-align: center;
+}
+.reassign-user-wrapper h3 {
+  font-weight: unset;
+  text-align: left;
+  text-transform: unset;
+  color: #8B2222;
+}
+.reassign-user-wrapper .h2 {
+  color: #000058;
+  text-shadow: 1px 1px 3px #171D22, -1px -1px 3px #B7C4CD;
+  color: #228B22;
+  font-weight: unset;
+}
+
 /* Styling and typography of buttons */
 .btn-login,
 .btn-register,
@@ -356,6 +378,19 @@ body {
     width: 138rem;
   }
 }
+.reassign-user-form {
+  width: 20rem;
+  margin: 3rem auto;
+}
+.reassign-user-form ul {
+  margin: 3rem auto;
+}
+
+.reassign-user-email {
+  width: 30rem;
+  margin: 3rem auto;
+}
+
 .registration-form {
   width: 50rem;
   margin: 3rem auto;

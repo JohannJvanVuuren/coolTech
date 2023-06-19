@@ -31,17 +31,10 @@ export const NavigationBar = () => {
                     </button>
                 </Link>
                 <Link
-                    to={'/viewCredentials'}
+                    to={'/reassignUser'}
                 >
                     <button className={'btn-header'}>
-                        Assign User to OU/Div
-                    </button>
-                </Link>
-                <Link
-                    to={'/viewCredentials'}
-                >
-                    <button className={'btn-header'}>
-                         Designing User from OU/Div
+                        Assign/Design User to OU/Div
                     </button>
                 </Link>
                 <Link
