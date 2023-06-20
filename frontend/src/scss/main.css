@@ -133,10 +133,25 @@ body {
   color: #8B2222;
 }
 .reassign-user-wrapper .h2 {
-  color: #000058;
   text-shadow: 1px 1px 3px #171D22, -1px -1px 3px #B7C4CD;
   color: #228B22;
   font-weight: unset;
+}
+
+/* Typography for the change roles page */
+.change-role-wrapper h2,
+.change-role-wrapper .h2 {
+  color: #000058;
+  text-shadow: 1px 1px 3px #171D22, -1px -1px 3px #B7C4CD;
+}
+.change-role-wrapper p {
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-shadow: 1px 1px 3px #171D22, -1px -1px 3px #B7C4CD;
+  color: #8B2222;
+}
+.change-role-wrapper .current-role h2 {
+  color: #228B22;
 }
 
 /* Styling and typography of buttons */
@@ -251,6 +266,27 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.change-role-wrapper {
+  width: 50rem;
+  margin: 3rem auto;
+}
+.change-role-wrapper .change-role-email {
+  width: 30rem;
+  margin: 3rem auto;
+}
+.change-role-wrapper .current-role {
+  margin: 3rem auto;
+  width: 30rem;
+}
+.change-role-wrapper .update {
+  margin: 3rem auto;
+  width: 30rem;
+}
+.change-role-wrapper .change-role-form {
+  width: 30rem;
+  margin: 3rem auto;
 }
 
 /* Layout of the header at the top of all renders */

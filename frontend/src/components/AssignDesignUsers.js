@@ -94,7 +94,7 @@ export const AssignDesignUsers = () => {
 
         const token = localStorage.getItem('JWT token');
 
-        const apiUrl = 'http://localhost:8000/api/get-user-ou-div';
+        const apiUrl = 'http://localhost:8000/api/get-user';
         const config = {
             email: email
         }

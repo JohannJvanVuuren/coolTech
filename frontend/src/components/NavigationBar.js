@@ -38,7 +38,7 @@ export const NavigationBar = () => {
                     </button>
                 </Link>
                 <Link
-                    to={'/viewCredentials'}
+                    to={'/changeUserRole'}
                 >
                     <button className={'btn-header'}>
                         Change User's Role

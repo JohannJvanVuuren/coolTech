@@ -102,7 +102,7 @@ export const registerUser = async (req, res) => {
     }
 }
 
-export const getUserOuDiv = async (req, res) => {
+export const getUser = async (req, res) => {
 
     /* Obtaining the token payload from the headers */
     const auth = req.headers['authorization'];
@@ -125,6 +125,7 @@ export const getUserOuDiv = async (req, res) => {
 
             const divisionCodes = user[0].divisionCode;
             const organisationalUnitCodes = user[0].organisationalUnitCode;
+            const role = user[0].role;
 
             /* Constructing arrays of the organisational unit and division names */
             const divisionNamesArray = [];
@@ -142,7 +143,7 @@ export const getUserOuDiv = async (req, res) => {
 
 
 
-            const userOuDiv = [divisionNamesArray, organisationalUnitNamesArray]
+            const userOuDiv = [divisionNamesArray, organisationalUnitNamesArray, role]
 
             res.status(200).send(userOuDiv);
         } else {
@@ -161,7 +162,6 @@ export const getUserOuDiv = async (req, res) => {
 
 }
 
-// TODO: Add 'assign users to OU/Div' endpoint
 export const reassignUsers = async (req, res) => {
 
     /* Obtaining the token payload from the headers */
@@ -200,7 +200,7 @@ export const reassignUsers = async (req, res) => {
             if (user) {
                 res.status(200).send({'message': 'Update Successful'});
             } else {
-                console.log('Error!!!')
+                res.status(500).send({'error': 'Internal server or databse error while reassigning user'})
             }
 
         } else {
@@ -219,4 +219,61 @@ export const reassignUsers = async (req, res) => {
 
 }
 
+/**
+ * Change user's role
+ */
+export const changeUserRole = async (req, res) => {
 
+    /* Obtaining the token payload from the headers */ // TODO: Consider refactoring this
+    const auth = req.headers.authorization;
+    const token = auth.split(' ')[1];
+
+    /* Obtaining the required data from the body of the request by object destructuring */
+    console.log(req.body)
+    const {email, newRole} = req.body;
+
+    /* Try-catch block in case of JWT verification failures */
+    try {
+
+        /* Verifying and decoding the payload with the secret code */
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        /* Verifying authorisation to perform this action from the JWT token */
+        if (decoded.admin === true) {
+
+            /* Submitting the update via the Mongoose findOneAndUpdate method */
+            const updatedDocument = await User.findOneAndUpdate(
+                {
+                    email: email
+                },{
+                    $set: {
+                        role: newRole
+                    }
+                },
+                {
+                    new: true,
+                    lean: true
+                }).exec();
+
+            if (updatedDocument) {
+                res.status(200).send({'message': 'Update successful'})
+            } else {
+                res.status(500).send({'error': 'Internal server or database error while updating role'})
+            }
+
+        } else {
+            /* An error message if the user is not authorised to view any repositories (fall back) */
+            res.status(403).send({'message': 'JWT verified, but not authorized'})
+        }
+
+
+
+    } catch (err){
+
+        /* Error message when the JWT verification fails */
+        res.status(401).send({'error': 'Bad JWT!'})
+
+    }
+
+
+}

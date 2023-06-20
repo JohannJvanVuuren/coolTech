@@ -104,10 +104,33 @@
   }
 
     .h2 {
-      color: $mid-blue;
       text-shadow: 1px 1px 3px $darkest-charcoal,
       -1px -1px 3px $white-charcoal;
       color: $forest-green;
       font-weight: unset;
     }
+}
+
+/* Typography for the change roles page */
+.change-role-wrapper {
+  h2,
+  .h2 {
+    color: $mid-blue;
+    text-shadow: 1px 1px 3px $darkest-charcoal,
+    -1px -1px 3px $white-charcoal;
+  }
+
+  p {
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px $darkest-charcoal,
+    -1px -1px 3px $white-charcoal;
+    color: $mid-red;
+  }
+
+  .current-role {
+    h2 {
+      color: $forest-green;
+    }
+  }
 }
