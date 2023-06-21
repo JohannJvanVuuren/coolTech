@@ -3,7 +3,7 @@
 * */
 
 /* Importing assertion libraries and request to make API calls */
-import {should, expect} from 'chai';
+import {expect} from 'chai';
 import assert from 'assert';
 import request from 'request';
 

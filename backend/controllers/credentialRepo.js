@@ -7,7 +7,6 @@ dotenv.config({path: './config/config.env'});
 /**
  * Dependency modules, files and functions
  */
-import jwt from 'jsonwebtoken';
 import {ObjectId} from "mongodb";
 import {findUnitDivisionNames} from './helpers.js';
 import {handleJWTtoken} from "./helpers.js";

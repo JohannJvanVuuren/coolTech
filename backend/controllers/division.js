@@ -8,7 +8,6 @@ import {handleJWTtoken} from "./helpers.js";
  */
 import Division from '../models/division.js';
 import User from '../models/user.js';
-import jwt from 'jsonwebtoken';
 
 /**
  * This controller facilitates the extraction of the Divisions from the collection in the database

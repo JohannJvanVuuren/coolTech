@@ -1,7 +1,6 @@
 /**
  * Dependency modules, files and functions
  */
-import jwt from 'jsonwebtoken';
 import {handleJWTtoken} from "./helpers.js";
 
 /**

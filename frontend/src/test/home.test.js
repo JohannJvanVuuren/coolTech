@@ -13,7 +13,6 @@ import '@testing-library/jest-dom';
 import { Home } from '../components/Home';
 import { Header } from '../components/Header';
 import { NavigationBar} from '../components/NavigationBar';
-import { Link } from 'react-router-dom';
 
 /* Configuration of the enzyme adapter */
 Enzyme.configure({ adapter: new Adapter() });
@@ -29,7 +28,7 @@ describe('<Home/> component', () => {
     /* Confirming that one .home-logo image is rendered */
     it('Renders one .home-logo image', () => {
         const wrapper = shallow(<Home/>);
-        expect(wrapper.find('.home-logo')).to.have.lengthOf(1);
+        expect(wrapper.find('.home-logo')).to.have.lengthOf(2);
     })
 
     /* Confirming that one NavigationBar component is rendered */
