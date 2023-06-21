@@ -1,0 +1,18 @@
+/* Styling of the user feedback page */
+.user-feedback-wrapper,
+.logout-feedback {
+  position: relative;
+  height: 50vh;
+
+  .user-feedback-container,
+  .logout-feedback-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.logout-feedback {
+  height: 100vh;
+}

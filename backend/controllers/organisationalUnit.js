@@ -2,6 +2,7 @@
  * Dependency modules, files and functions
  */
 import jwt from 'jsonwebtoken';
+import {handleJWTtoken} from "./helpers.js";
 
 /**
  * Import of the models needed by these controllers
@@ -15,14 +16,20 @@ import User from '../models/user.js';
  */
 export const getOrganisationalUnitList = async (req, res) => {
 
+    /* Try-catch block to handle successful retrieval of a unit list from the database collection */
     try {
 
         /* Getting the list of organisational units from the database using Mongoose */
         const organisationalUnits = await OrganisationalUnit.find({});
-        res.status(200).send(organisationalUnits);
+
+        /* Confirming that the list was found before sending it back to the frontend */
+        if (organisationalUnits) {
+            res.status(200).send(organisationalUnits);
+        }
 
     } catch (error) {
 
+        /* The error message if the above fails */
         res.status(500).send({'error': 'There was an error while retrieving the list of organisational units ' +
                 'from the database.'})
 
@@ -32,14 +39,11 @@ export const getOrganisationalUnitList = async (req, res) => {
 
 export const getAuthorisedOrganisationalUnits = async (req, res) => {
 
-    /* Obtaining the token payload from the headers */
-    const auth = req.headers['authorization'];
-    const token = auth.split(' ')[1];
-
+    /* Try-catch block in case of JWT verification failure */
     try {
 
         /* Verifying and decoding the payload with the secret code */
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = handleJWTtoken(req.headers.authorization);
 
         /* Finding the user to get authorised organisational unit and division codes */
         const user = await User.find({email: decoded.email});
@@ -57,11 +61,14 @@ export const getAuthorisedOrganisationalUnits = async (req, res) => {
             organisationalUnitArray.push(organisationalUnit[0]);
         }
 
+        /* Sending the unit array back to the frontend */
         res.status(200).send(organisationalUnitArray);
 
     } catch (error) {
+
         /* The final catch block that handles JWT verification failure */
         res.status(401).send({'error': 'Bad JWT!'});
+
     }
 }
 

@@ -70,37 +70,25 @@ body {
   text-shadow: 2px 2px 6px #171D22, -2px -2px 6px #B7C4CD;
 }
 
-/* Typography of the feedback pages */
-.feedback-container .primary-message,
-.login-feedback-container .primary-message,
-.logout-feedback-container .primary-message,
-.add-credentials-container .primary-message,
-.view-credentials-container .primary-message {
+/* Typography of the user feedback page */
+.user-feedback-container .primary-message,
+.logout-feedback-container .primary-message {
   font-weight: 300;
   font-size: 5rem;
   text-transform: uppercase;
   text-shadow: 2px 2px 6px #171D22, -2px -2px 6px #B7C4CD;
   text-align: center;
 }
-.feedback-container .success,
-.login-feedback-container .success,
-.logout-feedback-container .success,
-.add-credentials-container .success,
-.view-credentials-container .success {
+.user-feedback-container .success,
+.logout-feedback-container .success {
   color: #228B22;
 }
-.feedback-container .fail,
-.login-feedback-container .fail,
-.logout-feedback-container .fail,
-.add-credentials-container .fail,
-.view-credentials-container .fail {
+.user-feedback-container .fail,
+.logout-feedback-container .fail {
   color: #8B2222;
 }
-.feedback-container .secondary-message,
-.login-feedback-container .secondary-message,
-.logout-feedback-container .secondary-message,
-.add-credentials-container .secondary-message,
-.view-credentials-container .secondary-message {
+.user-feedback-container .secondary-message,
+.logout-feedback-container .secondary-message {
   text-align: center;
   font-size: 2rem;
   color: #000058;
@@ -244,6 +232,7 @@ body {
   box-shadow: 1rem 1rem 3rem #2C3840, -1rem -1rem 3rem #B7C4CD;
 }
 
+/* Styling of the table. Placing it inside a Bootstrap card to position it optimally */
 .card {
   box-shadow: 1rem 1rem 3rem #2C3840, -1rem -1rem 3rem #B7C4CD;
   margin-left: auto;
@@ -251,23 +240,13 @@ body {
   border: none;
 }
 
+/* Styling of the add repository form */
 .add-repo-form {
   width: 50rem;
   margin: 3rem auto;
 }
 
-/* Layout of the AddCredentialFeedback page and message */
-.add-credentials-wrapper {
-  position: relative;
-  height: 50vh;
-}
-.add-credentials-wrapper .add-credentials-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
+/* Styling of the change role component */
 .change-role-wrapper {
   width: 50rem;
   margin: 3rem auto;
@@ -372,17 +351,7 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.login-feedback,
-.logout-feedback {
-  position: relative;
-}
-.login-feedback .login-feedback-container,
-.login-feedback .logout-feedback-container,
-.logout-feedback .login-feedback-container,
-.logout-feedback .logout-feedback-container {
-  margin-top: 15rem;
-}
-
+/* Layout of the logout button */
 .feedback-container__btn {
   display: block;
   position: relative;
@@ -414,6 +383,7 @@ body {
     width: 138rem;
   }
 }
+/* Layout of the reassign user component */
 .reassign-user-form {
   width: 20rem;
   margin: 3rem auto;
@@ -427,23 +397,10 @@ body {
   margin: 3rem auto;
 }
 
+/* Layout of the registration component */
 .registration-form {
   width: 50rem;
   margin: 3rem auto;
-}
-
-/* Layout of the registration feedback message and buttons */
-.feedback-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  height: 50%;
-  width: 80%;
 }
 
 /* Layout and size of the loading spinner */
@@ -458,6 +415,7 @@ body {
   width: 5rem;
 }
 
+/* Layout of the tables used in the site */
 .card {
   width: 133rem;
   margin: 5rem auto;
@@ -470,6 +428,26 @@ body {
     width: 138rem;
   }
 }
+/* Styling of the user feedback page */
+.user-feedback-wrapper,
+.logout-feedback {
+  position: relative;
+  height: 50vh;
+}
+.user-feedback-wrapper .user-feedback-container,
+.user-feedback-wrapper .logout-feedback-container,
+.logout-feedback .user-feedback-container,
+.logout-feedback .logout-feedback-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.logout-feedback {
+  height: 100vh;
+}
+
 /* Import of Google Font 'Lato' */
 
 /*# sourceMappingURL=main.css.map */

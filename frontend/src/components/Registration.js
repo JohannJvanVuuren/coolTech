@@ -62,6 +62,7 @@ export const Registration = () => {
         const urlOrgUnits = 'http://localhost:8000/api/organisational-units';
         const urlDivisions = 'http://localhost:8000/api/divisions';
 
+        /* Setup of multiple endpoint axios call */
         const requestOrgUnits = axios.get(urlOrgUnits);
         const requestDivisions = axios.get(urlDivisions);
 
@@ -83,20 +84,26 @@ export const Registration = () => {
                 setOrgUnitCheckedState(new Array(organisationalUnits.length).fill(false));
             })
             .catch(error => {
-                console.log(error);
+                navigate('/userFeedback', {
+                    /* Divert to a user feedback page upon the triggering of an error */
+                    state: {
+                        status: error.request.status,
+                        message: error.request.statusText
+                    }
+                })
             });
 
-
-    }, [divisions.length, organisationalUnits.length]);
-
+    }, [divisions.length, organisationalUnits.length, navigate]);
 
     /**
      * This function handles option selections in the select component of the form
      */
     const roleSelectHandler = (event) => {
 
+        /* Setting of the role based on the selected value */
         const selectedRole = event.target.value;
 
+        /* Conditional statement for the construction of a role object */
         if (selectedRole === 'management') {
             const updatedRole = {
                 ...role,
@@ -125,6 +132,7 @@ export const Registration = () => {
      */
     const orgUnitCheckboxChangeHandler = (position) => {
 
+        /* Inversion of the checked state corresponding to the checkbox at the indicated index */
         const updatedOrgUnitCheckedState = orgUnitCheckedState.map((checkedState, index) => {
             if (index === position) {
                 return !checkedState;
@@ -142,8 +150,8 @@ export const Registration = () => {
      */
     const divisionCheckboxChangeHandler = (position) => {
 
+        /* Inversion of the checked state corresponding to the checkbox at the indicated index */
         const updatedDivisionCheckedState = divisionCheckedState.map((checkedState, index) => {
-
             if (index === position) {
                 return !checkedState;
             } else {
@@ -152,8 +160,8 @@ export const Registration = () => {
         })
 
         setDivisionCheckedState(updatedDivisionCheckedState);
-    }
 
+    }
 
     /**
      * All actions required upon form submission are handled in this function, including
@@ -194,18 +202,20 @@ export const Registration = () => {
         await axios.post(url, config)
             .then(response => {
                 /* Navigation to the registration feedback page for user feedback */
-                navigate('/registrationFeedback', {
+                navigate('/userFeedback', {
                     replace: true,
                     state: {
                         status: response.status,
+                        message: response.data.message
                     }
                 })
             })
         } catch (error) {
-            navigate('/registrationFeedback', {
+            navigate('/userFeedback', {
                 replace: true,
                 state: {
-                    status: error.request.status
+                    status: error.request.status,
+                    message: error.request.statusText
                 }
             })
         }
@@ -314,4 +324,3 @@ export const Registration = () => {
         </div>
     );
 }
-

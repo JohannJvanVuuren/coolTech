@@ -2,7 +2,6 @@
  *  Import and configuration of dotenv to access variable stored in the .env file
  */
 import dotenv from 'dotenv';
-
 dotenv.config({path: './config/config.env'});
 
 /**
@@ -11,6 +10,7 @@ dotenv.config({path: './config/config.env'});
 import jwt from 'jsonwebtoken';
 import {ObjectId} from "mongodb";
 import {findUnitDivisionNames} from './helpers.js';
+import {handleJWTtoken} from "./helpers.js";
 
 /**
  * Import of models needed in this controller
@@ -23,21 +23,19 @@ import CredentialRepo from '../models/credentialRepo.js';
  */
 export const getCredentialRepos = async (req, res) => {
 
-    /* Obtaining the token payload from the headers */
-    const auth = req.headers['authorization'];
-    const token = auth.split(' ')[1];
-
+    /* Try-catch block for cases where the JWT verification fails */
     try {
 
-        /* Verifying and decoding the payload with the secret code */
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        /* Verifying and decoding the payload with a helper function */
+        const decoded = handleJWTtoken(req.headers.authorization);
 
         /* Checking the level of access corresponding to the payload */
         if (decoded.normal === true || decoded.management === true || decoded.admin === true) {
 
             /**
-             * Acquiring the user from the database in order to get the organisational unit codes and corresponding
-             * division codes for which the user is authorised to view credential repos.
+             * Acquiring the user from the database in order to get the organisational unit codes
+             * and corresponding division codes for which the user is authorised to view credential
+             * repos.
              */
             const user = await User.find({email: decoded.email})
             const userOrganisationalUnitCodes = user[0].organisationalUnitCode;
@@ -129,15 +127,11 @@ export const addCredentials = async (req, res) => {
     /* Try-catch in case JWT verification fails */
     try {
 
-        /* Acquiring the token payload from the headers */
-        const auth = req.headers['authorization'];
-        const token = auth.split(' ')[1];
-
         /* Acquiring the new credentials from the body of the request */
         const {resource, username, password} = req.body;
 
-        /* Decoding and verifying the JWT token */
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        /* Decoding and verifying the JWT token with a helper function */
+        const decoded = handleJWTtoken(req.headers.authorization);
 
         /* Checking user authorisation based on the JWT payload */
         if (decoded.normal === true || decoded.management === true || decoded.admin === true) {
@@ -165,6 +159,7 @@ export const addCredentials = async (req, res) => {
 
             } else {
 
+                /* The case where a credential already exists */
                 res.status(403).send({'error': 'Credential Already Exists'});
 
             }
@@ -175,6 +170,8 @@ export const addCredentials = async (req, res) => {
 
         }
     } catch (e) {
+
+        /* Failure of the JWT verification process */
         res.status(401).send({'error': 'Bad JWT!'})
     }
 }
@@ -187,19 +184,16 @@ export const updateCredential = async (req, res) => {
     /* Try-catch block in case JWT verification fails */
     try {
 
-        /* Acquiring the token payload from the headers */
-        const auth = req.headers['authorization'];
-        const token = auth.split(' ')[1];
-
-        /* Decoding and verifying the JWT token */
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        /* Decoding and verifying the JWT token with a helper function */
+        const decoded = handleJWTtoken(req.headers.authorization);
 
         /* Acquiring the details needed for the credential update */
         const {credentialRepoId, resource, username, password} = req.body;
 
+        /* Checking of the authorisation level encoded in the JWT payload */
         if (decoded.management === true || decoded.admin === true) {
 
-
+            /* Updating the credential with Mongoose */
             const updatedCredentialDocument = await CredentialRepo.findOneAndUpdate(
                 {_id: new ObjectId(credentialRepoId)},
                 {
@@ -212,19 +206,20 @@ export const updateCredential = async (req, res) => {
                 }
             )
 
+            /* Success message upon successful update of credential */
             res.status(200).send({'message': 'Credential successfully updated'})
 
         } else {
 
-            /* An error message if the user is not authorised to  update any credentials (fall back) */
+            /* An error message if the user is not authorised to update any credentials (fall back) */
             res.status(403).send({'message': 'JWT verified, but not authorized'})
 
         }
     } catch (e) {
 
+        /* Error message upon JWT verification fail */
         res.status(401).send({'error': 'Bad JWT!'})
 
     }
-
 
 }

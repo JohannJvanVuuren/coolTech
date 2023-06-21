@@ -58,6 +58,7 @@ export const AssignDesignUsers = () => {
         const urlOrgUnits = 'http://localhost:8000/api/organisational-units';
         const urlDivisions = 'http://localhost:8000/api/divisions';
 
+        /* Setup for a multiple endpoint axios call */
         const requestOrgUnits = axios.get(urlOrgUnits);
         const requestDivisions = axios.get(urlDivisions);
 
@@ -79,11 +80,16 @@ export const AssignDesignUsers = () => {
                 setOrgUnitCheckedState(new Array(organisationalUnits.length).fill(false));
             })
             .catch(error => {
-                console.log(error);
+                /* Navigating to an user feedback page upon error */
+                navigate('/userFeedback', {
+                    state: {
+                        status: error.request.status,
+                        message: error.response.data.error
+                    }
+                })
             });
 
-
-    }, [divisions.length, organisationalUnits.length]);
+    }, [divisions.length, organisationalUnits.length, navigate]);
 
     /**
      * Get the user's list of organisational units and divisions
@@ -92,8 +98,10 @@ export const AssignDesignUsers = () => {
 
         event.preventDefault();
 
+        /* Acquiring the JWT token from local storage */
         const token = localStorage.getItem('JWT token');
 
+        /* Setup of the axios configuration for the retieval of the required user information */
         const apiUrl = 'http://localhost:8000/api/get-user';
         const config = {
             email: email
@@ -104,14 +112,18 @@ export const AssignDesignUsers = () => {
             }
         }
 
+        /* The axios call to retieve the user organisational unit and division lists as well
+        * as the role */
         axios.post(apiUrl, config, headers)
             .then(response => {
+                console.log(response.data)
                 setUserDivisionsList(response.data[0]);
                 setUserOrgUnitsList(response.data[1]);
                 setIsUserLoaded(true);
             })
             .catch(error => {
-                navigate('/reassignUserFeedback', {
+                /* Divert to user feedback page if there is an error */
+                navigate('/userFeedback', {
                     replace: true,
                     state: {
                         status: error.request.status,
@@ -119,7 +131,6 @@ export const AssignDesignUsers = () => {
                     }
                 })
             })
-
     }
 
     /**
@@ -128,6 +139,7 @@ export const AssignDesignUsers = () => {
      */
     const orgUnitCheckboxChangeHandler = (position) => {
 
+        /* Inverting checked states at the given position in the array of booleans */
         const updatedOrgUnitCheckedState = orgUnitCheckedState.map((checkedState, index) => {
             if (index === position) {
                 return !checkedState;
@@ -145,8 +157,8 @@ export const AssignDesignUsers = () => {
      */
     const divisionCheckboxChangeHandler = (position) => {
 
+        /* Inverting checked states at the given position in the array of booleans */
         const updatedDivisionCheckedState = divisionCheckedState.map((checkedState, index) => {
-
             if (index === position) {
                 return !checkedState;
             } else {
@@ -197,16 +209,18 @@ export const AssignDesignUsers = () => {
         /* The axios post request to the backend */
         await axios.post(url, config, headers)
             .then(response => {
-                /* Navigation to the 'reassign user' feedback page for user feedback */
-                navigate('/reassignUserFeedback', {
+                /* Navigation to a user feedback page upon success */
+                navigate('/userFeedback', {
                     replace: true,
                     state: {
                         status: response.status,
+                        message: response.data.message
                     }
                 });
             })
             .catch(error => {
-                navigate('/reassignUserFeedback', {
+                /* Divert to a user feedback page upon returning an error */
+                navigate('/userFeedback', {
                     replace: true,
                     state: {
                         status: error.request.status,

@@ -11,6 +11,7 @@ dotenv.config({path: './config/config.env'});
 import jwt from 'jsonwebtoken';
 import {findOrganisationalUnitName} from "./helpers.js";
 import {findDivisionName} from "./helpers.js";
+import {handleJWTtoken} from "./helpers.js";
 
 /**
  * Import the models needed in this group of controllers
@@ -49,7 +50,10 @@ export const logInUser = async (req, res) => {
 
                 /* Generating the JWT token and sending it back to the frontend */
                 const token = jwt.sign(JSON.stringify(payload), process.env.JWT_SECRET, {algorithm: 'HS256'});
-                res.send({'token': token});
+                res.status(200).send({
+                    'token': token,
+                    'message': 'Successfully Logged In'
+                });
 
                 /* Error if password did not match the user */
             } else {
@@ -97,16 +101,16 @@ export const registerUser = async (req, res) => {
             await newUser.save();
             res.status(200).send({message: 'Registration Successful!'});
         } catch (err) {
-            res.status(500).send({message: 'There was an error while registering the user.'});
+            res.status(500).send({'error': 'There was an error while registering the user.'});
         }
     }
 }
 
+/**
+ * A controller to get the user organisational unit name and division name arrays as well as the
+ * role
+ */
 export const getUser = async (req, res) => {
-
-    /* Obtaining the token payload from the headers */
-    const auth = req.headers['authorization'];
-    const token = auth.split(' ')[1];
 
     /* Acquiring the email from the body of the request */
     const email = req.body.email;
@@ -115,7 +119,7 @@ export const getUser = async (req, res) => {
     try {
 
         /* Verification and decoding of the JWT token */
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = handleJWTtoken(req.headers.authorization);
 
         /* Obtaining the user information from the database collection */
         if (decoded.admin === true) {
@@ -123,6 +127,7 @@ export const getUser = async (req, res) => {
             /* Finding the user's details and organisational unit and division arrays*/
             const user = await User.find({email: email});
 
+            /* Extracting the unit and division codes and role */
             const divisionCodes = user[0].divisionCode;
             const organisationalUnitCodes = user[0].organisationalUnitCode;
             const role = user[0].role;
@@ -131,21 +136,24 @@ export const getUser = async (req, res) => {
             const divisionNamesArray = [];
             const organisationalUnitNamesArray =[];
 
+            /* Using a helper function to transform the codes into division names */
             for (const division of divisionCodes) {
                 const divisionName = await findDivisionName(division);
                 divisionNamesArray.push(divisionName);
             }
 
+            /* Using a helper function to transform the codes into organisational unit names */
             for (const unit of organisationalUnitCodes) {
                 const organisationalUnitName = await findOrganisationalUnitName(unit)
                 organisationalUnitNamesArray.push(organisationalUnitName);
             }
 
-
-
+            /* Constructing an array of the above information to send to the frontend */
             const userOuDiv = [divisionNamesArray, organisationalUnitNamesArray, role]
 
+            /* Sending the information to the frontend */
             res.status(200).send(userOuDiv);
+
         } else {
 
             /* An error message if the user is not authorised to view any repositories (fall back) */
@@ -164,10 +172,6 @@ export const getUser = async (req, res) => {
 
 export const reassignUsers = async (req, res) => {
 
-    /* Obtaining the token payload from the headers */
-    const auth = req.headers.authorization;
-    const token = auth.split(' ')[1];
-
     /* Obtaining the values in the body of the request by object destructuring */
     const {email, organisationalUnitCode, divisionCode} = req.body;
 
@@ -175,7 +179,7 @@ export const reassignUsers = async (req, res) => {
     try {
 
         /* Verifying and decoding the payload with the secret code */
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = handleJWTtoken(req.headers.authorization);
 
         /* Verifying authorisation to perform this action from the JWT token */
         if (decoded.admin === true) {
@@ -200,7 +204,7 @@ export const reassignUsers = async (req, res) => {
             if (user) {
                 res.status(200).send({'message': 'Update Successful'});
             } else {
-                res.status(500).send({'error': 'Internal server or databse error while reassigning user'})
+                res.status(500).send({'error': 'Internal server or database error while reassigning user'})
             }
 
         } else {
@@ -224,19 +228,14 @@ export const reassignUsers = async (req, res) => {
  */
 export const changeUserRole = async (req, res) => {
 
-    /* Obtaining the token payload from the headers */ // TODO: Consider refactoring this
-    const auth = req.headers.authorization;
-    const token = auth.split(' ')[1];
-
     /* Obtaining the required data from the body of the request by object destructuring */
-    console.log(req.body)
     const {email, newRole} = req.body;
 
     /* Try-catch block in case of JWT verification failures */
     try {
 
         /* Verifying and decoding the payload with the secret code */
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = handleJWTtoken(req.headers.authorization);
 
         /* Verifying authorisation to perform this action from the JWT token */
         if (decoded.admin === true) {
@@ -255,18 +254,24 @@ export const changeUserRole = async (req, res) => {
                     lean: true
                 }).exec();
 
+            /* Confirming that the document was indeed updated */
             if (updatedDocument) {
+
+                /* Returning a success message to the frontend if update was confirmed */
                 res.status(200).send({'message': 'Update successful'})
+
             } else {
+
+                /* Returning an error code and message if not confirmed */
                 res.status(500).send({'error': 'Internal server or database error while updating role'})
             }
 
         } else {
+
             /* An error message if the user is not authorised to view any repositories (fall back) */
             res.status(403).send({'message': 'JWT verified, but not authorized'})
+
         }
-
-
 
     } catch (err){
 
@@ -274,6 +279,5 @@ export const changeUserRole = async (req, res) => {
         res.status(401).send({'error': 'Bad JWT!'})
 
     }
-
 
 }

@@ -27,11 +27,11 @@ export const UpdateCredential = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-
+    /* Acquisition of the state variables from the useLocation hook via destructuring
+    * of the location.state object */
     const {credentialRepoId, resource, username, password} = location.state || {};
 
     /* Declaration and initialisation of state variables */
-    const [credentialRepoIdState, setCredentialRepoIdState] = useState(credentialRepoId)
     const [resourceState, setResourceState] =useState(resource);
     const [usernameState, setUsernameState] = useState(username);
     const [passwordState, setPasswordState] = useState(password);
@@ -44,6 +44,7 @@ export const UpdateCredential = () => {
 
         event.preventDefault();
 
+        /* Acquisition of the JWT token from local storage */
         const token = localStorage.getItem('JWT token');
 
         /* Setup of axios config */
@@ -54,7 +55,7 @@ export const UpdateCredential = () => {
             }
         }
         const config = {
-            credentialRepoId: credentialRepoIdState,
+            credentialRepoId: credentialRepoId,
             resource: resourceState,
             username: usernameState,
             password: passwordState
@@ -67,22 +68,24 @@ export const UpdateCredential = () => {
         axios.post(apiUrl, config, headers)
             .then(response => {
                 navigate(
-                    '/updateCredentialFeedback', {
+                    /* Divert to a user feedback page upon success */
+                    '/userFeedback', {
                         state: {
-                            message: response.data,
+                            message: response.data.message,
                             status: response.status
                         }
                     },{ replace: true})
             })
             .catch(error => {
-                navigate('/updateCredentialFeedback', {
+                /* Divert to a user feedback page upon triggering of an error */
+                navigate('/userFeedback', {
+                    replace: true,
                     state: {
                         status: error.request.status,
-                        message: error.response.data.error
+                        message: error.request.statusText
                     }
-                },{ replace: true})
+                })
             })
-
     }
 
     /* Rendering of the component */
@@ -96,7 +99,7 @@ export const UpdateCredential = () => {
                 onSubmit={loginFormSubmitHandler}
             >
                 <h1 className={'add-repo-form__heading'}>Add credential repo form</h1>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Group className="mb-3" controlId="formBasicText">
                     <Form.Label className={'h4'}>Resource Name</Form.Label>
                     <Form.Control
                         type="text"
@@ -109,7 +112,7 @@ export const UpdateCredential = () => {
                         autoFocus
                     />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Group className="mb-3" controlId="formBasicText">
                     <Form.Label className={'h4'}>Username</Form.Label>
                     <Form.Control
                         type="text"

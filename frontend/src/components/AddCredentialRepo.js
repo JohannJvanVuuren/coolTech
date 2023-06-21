@@ -20,8 +20,6 @@ export const AddCredentialRepo = () => {
     /* Creation of a 'navigate' instance to enable use of the useNavigate() hook */
     const navigate = useNavigate();
 
-
-
     /* Declaration and initialisation of state variables */
     const [organisationalUnits, setOrganisationalUnits] = useState([]);
     const [organisationalCode, setOrganisationalCode] = useState('');
@@ -36,7 +34,6 @@ export const AddCredentialRepo = () => {
      *  user can only add credentials to organisational units and divisions where authorised
      */
     const token = localStorage.getItem('JWT token');
-
 
     /* useEffect hook to run once only to obtain authorised organisational units and divisions */
     useEffect(() => {
@@ -53,11 +50,12 @@ export const AddCredentialRepo = () => {
             }
         }
 
+        /* Setting up multiple axios call */
         const requestOrgUnits = axios.get(urlOrgUnits, config);
         const requestDivisions = axios.get(urlDivisions, config);
 
         /**
-         * The axios call and subsequent setting of the organisationalUnits and divisions variabales
+         * The axios call and subsequent setting of the organisationalUnits and divisions variables
          */
         axios.all([requestOrgUnits, requestDivisions])
             .then(axios.spread((...responses) => {
@@ -67,7 +65,6 @@ export const AddCredentialRepo = () => {
             .catch(error => {
                 console.log(error);
             });
-
 
     }, [divisions.length, organisationalUnits.length, token]);
 
@@ -98,6 +95,8 @@ export const AddCredentialRepo = () => {
 
         event.preventDefault();
 
+        /* Setting up the configuration of the axios call to post the added credentials to
+         * the database collection */
         const apiUrl = 'http://localhost:8000/api/add-credentials';
         const config = {
             organisationalCode: organisationalCode,
@@ -112,18 +111,20 @@ export const AddCredentialRepo = () => {
             }
         }
 
-
+        /* Axios call to add the above information to the database */
         axios.post(apiUrl, config, headers)
             .then(response => {
-                navigate('/addCredentialFeedback', {
+                /* Navigating to the user feedback page once completed */
+                navigate('/userFeedback', {
                     state: {
-                        message: response.data,
+                        message: response.data.message,
                         status: response.status
                     }
                 })
             })
             .catch(error => {
-                navigate('/addCredentialFeedback', {
+                /* Navigating to the user feedback page upon error */
+                navigate('/userFeedback', {
                     state: {
                         status: error.request.status,
                         message: error.response.data.error
@@ -192,7 +193,7 @@ export const AddCredentialRepo = () => {
                         autoFocus
                     />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label className={'h4'}>Username</Form.Label>
                     <Form.Control
                         type="text"

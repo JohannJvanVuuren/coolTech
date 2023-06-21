@@ -40,12 +40,9 @@
   }
 }
 
-/* Typography of the feedback pages */
-.feedback-container,
-.login-feedback-container,
-.logout-feedback-container,
-.add-credentials-container,
-.view-credentials-container {
+/* Typography of the user feedback page */
+.user-feedback-container,
+.logout-feedback-container {
   .primary-message {
     font-weight: 300;
     font-size: 5rem;

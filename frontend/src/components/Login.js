@@ -43,18 +43,22 @@ export const Login = () => {
                 .then(response => {
                     localStorage.setItem('JWT token', response.data.token);
                     /* Navigation to the login feedback page for user feedback */
-                    navigate('/loginFeedback', {
+                    navigate('/userFeedback', {
+                        /* Divert to a user feedback page upon success */
                         replace: true,
                         state: {
-                            status: response.status
+                            status: response.status,
+                            message: response.data.message
                         }
                     })
                 })
         } catch (error) {
             /* Navigation to the login feedback page for user feedback*/
-            navigate('/loginFeedback', {
+            navigate('/userFeedback', {
+                /* Divert to a user feedback page upon the triggering of an error */
                 state: {
-                    status: error.request.status
+                    status: error.request.status,
+                    message: error.request.statusText
                 }
             })
         }
@@ -79,7 +83,6 @@ export const Login = () => {
                         autoFocus
                     />
                 </Form.Group>
-
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label className={'h4'}>Password</Form.Label>
                     <Form.Control
@@ -88,7 +91,6 @@ export const Login = () => {
                         onChange={event => setPassword(event.target.value)}
                     />
                 </Form.Group>
-
                 <Button
                     variant="primary"
                     type="submit"

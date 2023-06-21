@@ -12,7 +12,7 @@ const router = express.Router();
 /**
  * This is a dummy route that will be used to evaluate the general functioning of the backend during testing. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Express' });
+  res.status(200).send('respond with a resource');
 });
 
 export default router;

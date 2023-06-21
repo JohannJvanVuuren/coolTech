@@ -24,7 +24,7 @@ export const Home = () => {
             <div className={'home-wrapper'}>
                 <div className={'home-container'}>
                     <div className={'home-logo'}>
-                        <img src={logo} alt="Cool Tech Logo"/>
+                        <img src={logo} classname={'home-logo'} alt="Cool Tech Logo"/>
                     </div>
                     <h1 className={'home-title'}>Credential Authentication System</h1>
                 </div>

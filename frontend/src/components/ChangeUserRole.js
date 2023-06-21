@@ -2,7 +2,7 @@
  * Dependency modules and hooks
  */
 import axios from 'axios';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {useNavigate} from "react-router-dom";
 
 /**
@@ -29,13 +29,12 @@ import Form from 'react-bootstrap/Form';
 export const ChangeUserRole = () => {
 
     /**
-     * Use navigate is used to go to the login page when a user clicks on the continue button after
+     * Use navigate is used to go to the login page when a user clicks on the continued button after
      * registration
      */
     const navigate = useNavigate();
 
     /* Declaration and initialisation of all state variables */
-
     const [email, setEmail] = useState('');
     const [selectedRole, setSelectedRole] = useState('');
     const [isUserLoaded, setIsUserLoaded] = useState(false);
@@ -47,8 +46,10 @@ export const ChangeUserRole = () => {
 
         event.preventDefault();
 
+        /* Acquiring the JWT token from local storage */
         const token = localStorage.getItem('JWT token');
 
+        /* Setup of the axios configuration */
         const apiUrl = 'http://localhost:8000/api/get-user';
         const config = {
             email: email
@@ -59,13 +60,15 @@ export const ChangeUserRole = () => {
             }
         }
 
+        /* Axios call to get the selected user's current role */
         axios.post(apiUrl, config, headers)
             .then(response => {
                 setSelectedRole(response.data[2])
                 setIsUserLoaded(true);
             })
             .catch(error => {
-                navigate('/reassignUserFeedback', {
+                /* Divert to a user feedback error upon the triggering of an error */
+                navigate('/userFeedback', {
                     replace: true,
                     state: {
                         status: error.request.status,
@@ -73,9 +76,7 @@ export const ChangeUserRole = () => {
                     }
                 })
             })
-
     }
-
 
     /**
      * All actions required upon form submission are handled in this function, including
@@ -87,7 +88,7 @@ export const ChangeUserRole = () => {
 
         /*
          * Using a conditional statement to determine the new role of the user which will be sent to the
-         * backend with a axios call
+         * backend with an axios call
          */
 
         let role;
@@ -117,15 +118,17 @@ export const ChangeUserRole = () => {
         await axios.post(url, config, headers)
             .then(response => {
                 /* Navigation to the 'reassign user' feedback page for user feedback */
-                navigate('/changeUserRoleFeedback', {
+                navigate('/userFeedback', {
                     replace: true,
                     state: {
                         status: response.status,
+                        message: response.data.message
                     }
                 });
             })
             .catch(error => {
-                navigate('/changeUserRoleFeedback', {
+                /* Divert to a user feedback page upon receipt of an error */
+                navigate('/userFeedback', {
                     replace: true,
                     state: {
                         status: error.request.status,
@@ -134,7 +137,6 @@ export const ChangeUserRole = () => {
                 });
             })
     }
-
 
     /**
      * Rendering of the form with the help of the React Bootstrap Form component
@@ -195,8 +197,6 @@ export const ChangeUserRole = () => {
                                     <option value="management">Management</option>
                                     <option value="admin">Admin</option>
                                 </Form.Select>
-
-
                             </Form.Group>
                             <div>
                                 <Button

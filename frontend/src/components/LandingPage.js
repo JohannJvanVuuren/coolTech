@@ -18,7 +18,7 @@ export const LandingPage = () => {
     return (
         <div className={'landing-container'}>
             <div className={'landing-logo'}>
-                <img src={logo} alt="Cool Tech Logo"/>
+                <img src={logo} className={'landing-page-logo'} alt="Cool Tech Logo"/>
             </div>
             <h1 className={'landing-title'}>Credential Authentication System</h1>
             <h2 className={'landing-subtitle'}>Please login or register before proceeding</h2>

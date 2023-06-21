@@ -33,7 +33,7 @@ export const LogoutFeedback = () => {
                     <div>
                         <h1 className={'primary-message success'}>Successfully Logged out</h1>
                         <h2 className={'secondary-message'}>Please click on the button to log back in</h2>
-                        <h2 className={'secondary-message'}>or on the logo to return home</h2>
+                        <h2 className={'secondary-message'}>or on the logo to register</h2>
                     </div>
                 </div>
                 <div className={'feedback-container__btn'}>

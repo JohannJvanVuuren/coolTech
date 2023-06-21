@@ -2,6 +2,7 @@
  * Dependency modules and hooks
  */
 import {useState, useEffect} from "react";
+import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 /**
@@ -20,6 +21,8 @@ import Spinner from 'react-bootstrap/Spinner';
 
 export const ViewCredentialRepo = () => {
 
+    const navigate = useNavigate();
+
     /* Declaring and initialising state variable */
     const [isLoading, setIsLoading] = useState(false);
 
@@ -32,6 +35,7 @@ export const ViewCredentialRepo = () => {
      */
     useEffect(() => {
 
+        /* To control the appearance of the spinner */
         setIsLoading(true);
 
         /* Acquiring the JWT token from localStorage */
@@ -52,12 +56,16 @@ export const ViewCredentialRepo = () => {
                 setIsLoading(false);
             })
             .catch(error => {
-
-                console.log(error)
-
+                navigate('/userFeedback', {
+                    replace: true,
+                    state: {
+                        status: error.request.status,
+                        message: error.request.statusText
+                    }
+                })
             })
 
-    }, []);
+    }, [navigate]);
 
     return (
         <div className={'view-credentials-wrapper'}>
@@ -102,9 +110,7 @@ export const ViewCredentialRepo = () => {
                                     <td className={'h5'}>{resource.resource}</td>
                                     <td className={'h5'}>{resource.username}</td>
                                     <td className={'h5'}>{resource.password}</td>
-                                    <td className={'h5'}>
-
-                                    </td>
+                                    <td className={'h5'}></td>
                                 </tr>
                             )
                         })}
