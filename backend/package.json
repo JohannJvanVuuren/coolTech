@@ -21,7 +21,7 @@
     "jsonwebtoken": "9.0.0",
     "mongodb": "5.5.0",
     "mocha": "10.2.0",
-    "mongoose": "7.2.2",
+    "mongoose": "7.3.3",
     "morgan": "~1.9.1",
     "request": "2.88.2",
     "validator": "13.9.0"
